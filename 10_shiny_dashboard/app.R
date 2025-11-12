@@ -24,27 +24,20 @@ glm_coefficients <- list(
   ),
   yos_effect = 800,  # per year
   occupation_effects = list(
-    "Accountant" = 5000,
-    "Administrator" = 2000,
-    "Analyst" = 7000,
-    "Business Manager" = 12000,
-    "Contract Manager" = 15000,
-    "Coordinator" = 1000,
+    # 7 Functional Military Categories (from salary analysis)
+    "Intelligence & Analysis" = 7000,        # avg $79,444
+    "Cyber/IT Operations" = 7500,            # avg $80,253
+    "Logistics & Supply" = 6800,             # avg $79,216
+    "Operations & Leadership" = 6500,        # avg $79,528
+    "Engineering & Maintenance" = 8000,      # avg $81,059
+    "Medical" = 5500,                        # avg $78,813
+    "Other/Support" = 4000,                  # avg $78,247
+    # 5 Data-Focused Career Fields
     "Data Analyst" = 8000,
-    "Database Administrator" = 7000,
-    "Director" = 25000,
-    "Engineer" = 12000,
-    "Financial Analyst" = 9000,
-    "Logistics Manager" = 11000,
-    "Manager" = 15000,
-    "Operations Manager" = 13000,
-    "Program Manager" = 16000,
-    "Project Manager" = 14000,
-    "Specialist" = 4000,
-    "Supervisor" = 6000,
-    "Systems Administrator" = 8000,
-    "Technician" = 3000,
-    "Training Manager" = 10000
+    "Data Scientist" = 9000,
+    "Operations Research Analyst" = 8500,
+    "Machine Learning Engineer" = 10000,
+    "Business Analyst" = 7500
   ),
   # Education level multipliers (based on BLS 2023 wage data by educational attainment)
   # Source: U.S. Bureau of Labor Statistics - Median Weekly Wage
@@ -62,12 +55,33 @@ glm_coefficients <- list(
     "PhD/Doctorate" = 1.65
   ),
   # Field-related bonus (if education matches target occupation)
-  field_related_bonus = 0.10,  # 10% salary boost if field-related
-  
-  # ========================================================================
-  # CERTIFICATION DATA - All verified from official sources
-  # ========================================================================
-  certifications = list(
+  field_related_bonus = 0.10  # 10% salary boost if field-related
+)
+
+# ========================================================================
+# CERTIFICATION DATA - All verified from official sources
+# Market salary context from CompTIA Tech Jobs Report (Sept 2025) & Dice.com surveys
+# ========================================================================
+
+# Market salary reference data (from CompTIA/Dice analysis)
+market_salary_context <- list(
+  "Kubernetes (CKA)" = 131375,
+  "Docker" = 132051,
+  "DevOps" = 131947,
+  "AWS Solutions Architect Associate" = 127769,  # AWS Lambda proxy
+  "Azure Administrator" = 115304,
+  "GCP Cloud Engineer" = 111204,
+  "Machine Learning" = 132150,
+  "Data Science" = 117589,  # Python proxy
+  "Python" = 117589,
+  "Cyber Security" = 113997,
+  "Security+" = 113997,  # Cyber Security proxy
+  "Artificial Intelligence" = 130277,
+  "Blockchain" = 113143,
+  "Google Cloud Platform" = 111204
+)
+
+certifications = list(
     # CYBERSECURITY (2 certs)
     "CISSP (Certified Information Systems Security Professional)" = list(
       premium = 35000,
@@ -76,7 +90,7 @@ glm_coefficients <- list(
       time_months = 6,
       jobs = "600k+",
       roi = "5.8:1",
-      caveat = NULL
+      caveat = "Enterprise security leadership cert. Related market data: Cyber Security skills average $113,997 (CompTIA/Dice 2025). Individual impact varies by employer."
     ),
     "Security+ (CompTIA)" = list(
       premium = 4000,
@@ -85,7 +99,7 @@ glm_coefficients <- list(
       time_months = 2,
       jobs = "1.5M+",
       roi = "4:1",
-      caveat = "Entry-level, prerequisite for CISSP"
+      caveat = "Entry-level security cert. Market context: Cyber Security skills average $113,997 (CompTIA/Dice 2025). CISSP prerequisite."
     ),
     # CLOUD & DEVOPS (6 certs)
     "AWS Solutions Architect Associate" = list(
@@ -95,7 +109,7 @@ glm_coefficients <- list(
       time_months = 3,
       jobs = "900k+",
       roi = "13:1",
-      caveat = NULL
+      caveat = "Market context: AWS Lambda skills average $127,769; Cloud architects earn $128,386 avg (CompTIA/Dice 2025). Individual impact varies by cloud adoption in employer."
     ),
     "Kubernetes (CKA)" = list(
       premium = 36000,
@@ -104,7 +118,7 @@ glm_coefficients <- list(
       time_months = 3,
       jobs = "400k+",
       roi = "12:1",
-      caveat = NULL
+      caveat = "Market data: Kubernetes skills average $131,375 (CompTIA/Dice 2025). High demand in containerized environments."
     ),
     "Terraform" = list(
       premium = 28000,
@@ -113,7 +127,7 @@ glm_coefficients <- list(
       time_months = 2,
       jobs = "200k+",
       roi = "11.2:1",
-      caveat = NULL
+      caveat = "IaC tool in high demand. Often paired with AWS, Azure, or Kubernetes certifications."
     ),
     "Azure Administrator" = list(
       premium = 29000,
@@ -122,7 +136,7 @@ glm_coefficients <- list(
       time_months = 2,
       jobs = "500k+",
       roi = "11.6:1",
-      caveat = NULL
+      caveat = "Market data: Azure skills average $115,304 (CompTIA/Dice 2025). Enterprise cloud adoption is growing."
     ),
     "GCP Cloud Engineer" = list(
       premium = 27000,
@@ -131,7 +145,7 @@ glm_coefficients <- list(
       time_months = 2,
       jobs = "300k+",
       roi = "10.8:1",
-      caveat = NULL
+      caveat = "Market data: Google Cloud Platform average $111,204 (CompTIA/Dice 2025). Less common than AWS but growing."
     ),
     "AWS Solutions Architect Professional" = list(
       premium = 3000,
@@ -140,7 +154,7 @@ glm_coefficients <- list(
       time_months = 2,
       jobs = "100k+",
       roi = "1.2:1",
-      caveat = "Specialization (stacks with AWS Associate)"
+      caveat = "Advanced AWS specialization (assumes AWS Associate foundation). Limited independent market data."
     ),
     # DATA SCIENCE (4 certs)
     "GCP Data Engineer" = list(
@@ -150,7 +164,7 @@ glm_coefficients <- list(
       time_months = 4,
       jobs = "400k+",
       roi = "13:1",
-      caveat = NULL
+      caveat = "Market context: GCP Data Engineering average from GCP Cloud Engineer $111,204 (CompTIA/Dice 2025). Strong demand for data engineering roles."
     ),
     "AWS Analytics Specialty" = list(
       premium = 32000,
@@ -159,7 +173,7 @@ glm_coefficients <- list(
       time_months = 3,
       jobs = "300k+",
       roi = "12.8:1",
-      caveat = NULL
+      caveat = "AWS data/analytics specialization. Market context: related AWS skills average $127,769 (CompTIA/Dice 2025)."
     ),
     "Databricks Certified Engineer" = list(
       premium = 30000,
@@ -168,7 +182,7 @@ glm_coefficients <- list(
       time_months = 4,
       jobs = "120k+",
       roi = "12:1",
-      caveat = NULL
+      caveat = "Newer certification for Apache Spark/data engineering. Limited historical market data; growing in demand."
     ),
     "Azure Data Engineer" = list(
       premium = 28000,
@@ -177,7 +191,7 @@ glm_coefficients <- list(
       time_months = 3,
       jobs = "200k+",
       roi = "11.2:1",
-      caveat = NULL
+      caveat = "Azure data platform specialty. Market context: Azure skills average $115,304 (CompTIA/Dice 2025)."
     ),
     # IT MANAGEMENT (3 certs)
     "PMP (Project Management Professional)" = list(
@@ -187,7 +201,7 @@ glm_coefficients <- list(
       time_months = 5,
       jobs = "600k+",
       roi = "2:1",
-      caveat = "⚠️ Realistic avg (+$11k assumes 60% promotion to PM). If promoted: +$18k. If staying IC: +$2-5k."
+      caveat = "Market context: Project Managers average $121,237; IT Management roles reach $168,345 (CompTIA/Dice 2025). Realistic avg assumes 60% transition to PM role."
     ),
     "Project+ (CompTIA)" = list(
       premium = 10000,
@@ -196,7 +210,7 @@ glm_coefficients <- list(
       time_months = 2,
       jobs = "300k+",
       roi = "2.5:1",
-      caveat = "Entry-level PM cert"
+      caveat = "Entry-level project management certification. Pathway to PMP."
     ),
     "ITIL" = list(
       premium = 10000,
@@ -208,7 +222,6 @@ glm_coefficients <- list(
       caveat = "IT Operations/Service Management focus"
     )
   )
-)
 
 # Skills by occupation (required skills + military-relevant skills)
 occupation_skills <- list(
@@ -243,6 +256,39 @@ occupation_skills <- list(
   "Technician" = list(
     required = c("Technical Repair", "Troubleshooting", "Hardware", "Safety"),
     military_relevant = c("Equipment Maintenance", "Field Operations", "Safety")
+  ),
+  # Category-based mappings from military occupation_category_mapping
+  "Medical (Clinical)" = list(
+    required = c("Patient Care", "Medical Protocols", "Emergency Response", "Clinical Documentation"),
+    military_relevant = c("Trauma Care", "Field Medicine", "Life Support")
+  ),
+  "Medical (Healthcare IT)" = list(
+    required = c("EHR Systems", "Healthcare Compliance", "Data Security", "IT Support"),
+    military_relevant = c("HIPAA Compliance", "Electronic Records", "System Administration")
+  ),
+  "Operations Management" = list(
+    required = c("Tactical Planning", "Resource Management", "Decision Making", "Team Coordination"),
+    military_relevant = c("Command Experience", "Strategic Planning", "Leadership")
+  ),
+  "Engineering & Maintenance" = list(
+    required = c("System Maintenance", "Troubleshooting", "Technical Repair", "Safety Protocols"),
+    military_relevant = c("Equipment Maintenance", "Field Operations", "System Integration")
+  ),
+  "Logistics & Supply" = list(
+    required = c("Inventory Management", "Supply Chain", "Logistics Planning", "Resource Allocation"),
+    military_relevant = c("Supply Management", "Inventory Control", "Distribution")
+  ),
+  "Cyber/IT Operations" = list(
+    required = c("Network Security", "System Administration", "Security Hardening", "Incident Response"),
+    military_relevant = c("Cybersecurity", "Network Defense", "Information Protection")
+  ),
+  "Intelligence & Analysis" = list(
+    required = c("Data Analysis", "Intelligence Methods", "Statistical Analysis", "Reporting"),
+    military_relevant = c("Intelligence Analysis", "Pattern Recognition", "Classified Data Handling")
+  ),
+  "HR Management" = list(
+    required = c("Recruitment", "Personnel Management", "HR Compliance", "Employee Relations"),
+    military_relevant = c("Military Personnel Management", "Records Management", "Protocol")
   )
 )
 
@@ -356,23 +402,18 @@ ui <- fluidPage(
   # Add JavaScript for collapsible certification rationale
   tags$head(
     tags$script(HTML("
-      $(document).ready(function() {
-        var isExpanded = true;  // Start expanded
+      $(document).on('click', '#cert_rationale_toggle', function() {
+        // Toggle content visibility
+        $('#cert_rationale_content').slideToggle(300);
         
-        $('#cert_rationale_toggle').click(function() {
-          isExpanded = !isExpanded;
-          
-          // Toggle content visibility
-          $('#cert_rationale_content').slideToggle(300);
-          
-          // Toggle arrow direction
-          var toggleText = $(this).find('span').text();
-          if (isExpanded) {
-            $(this).find('span').text('▼ Why These Certifications?');
-          } else {
-            $(this).find('span').text('▶ Why These Certifications?');
-          }
-        });
+        // Toggle arrow direction (just swap ▼ and ▶)
+        var currentText = $(this).find('span').first().html();
+        if (currentText.includes('▼')) {
+          currentText = currentText.replace('▼', '▶');
+        } else {
+          currentText = currentText.replace('▶', '▼');
+        }
+        $(this).find('span').first().html(currentText);
       });
     "))
   ),
@@ -414,16 +455,73 @@ ui <- fluidPage(
               min = 0, max = 40, value = 10, step = 1
             ),
             
-            # Occupation
+            # Occupation - All 36 military occupations
             selectInput(
               "occ_select",
-              "Occupational Specialty:",
+              "Your Current Military Occupational Specialty:",
               choices = c(
-                "Accountant", "Administrator", "Analyst",
-                "Engineer", "Manager", "Specialist",
-                "Systems Administrator", "Technician"
+                "Aerospace Medical Technician",
+                "Air Battle Manager",
+                "Ammunition Specialist",
+                "Automated Logistical Specialist",
+                "Avionics Flight Test Technician",
+                "Combat Medic",
+                "Communications and Information Officer",
+                "Communications Technician",
+                "Cyber Operational Intelligence Analyst",
+                "Cyber Operations Specialist",
+                "Cyber Warfare Operations Specialist",
+                "Cyber Warfare Operator",
+                "Data Network Technician",
+                "Engineman",
+                "Hospital Corpsman",
+                "Human Resources Officer",
+                "Human Resources Specialist",
+                "Information Technology Specialist",
+                "Intelligence Analyst",
+                "Intelligence Officer",
+                "Intelligence Specialist",
+                "Inventory Management Specialist",
+                "Logistics Readiness Officer",
+                "Machinery Repairman",
+                "Medical Laboratory Specialist",
+                "Motor Transport Operator",
+                "Operating Room Technician",
+                "Personnel Specialist",
+                "Radar Repairer",
+                "Rifleman/Infantry",
+                "Signal Support Specialist",
+                "Signals Intelligence Technician",
+                "Strike Warfare Officer",
+                "Supply Systems Technician",
+                "Surface Warfare Officer (SWO)",
+                "Unit Supply Specialist"
               ),
-              selected = "Systems Administrator"
+              selected = "Intelligence Officer"
+            ),
+            
+            # Desired Career Field (optional override)
+            selectInput(
+              "career_field_select",
+              "Desired Career Field (Optional):",
+              choices = c(
+                "← Auto-Detect (based on occupation)",
+                "Intelligence & Analysis",
+                "Cyber/IT Operations",
+                "Logistics & Supply",
+                "Operations Management",
+                "HR Management",
+                "Engineering & Maintenance",
+                "Medical (Clinical)",
+                "Medical (Healthcare IT)",
+                "Data Analyst",
+                "Data Scientist",
+                "Operations Research Analyst",
+                "Machine Learning Engineer",
+                "Business Analyst",
+                "Other/Support"
+              ),
+              selected = "← Auto-Detect (based on occupation)"
             ),
             
             # State selection (filters location dropdown)
@@ -521,37 +619,6 @@ ui <- fluidPage(
           div(
             style = "background-color: #fff; border: 2px solid #2196F3; padding: 20px; border-radius: 8px;",
             h3("Your Estimate"),
-                    p("Entry-level project management credential from CompTIA. Project+ cert holders show +$10k correlation. Good stepping stone before PMP. Lower barrier to entry (no experience requirement).", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$400 | Time: 3 months | Jobs: 500k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # ITIL
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ ITIL 4 Foundation"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("IT service management best practices framework. ITIL cert holders show +$10k correlation. Essential for IT operations, support, and DevOps roles. Industry-standard for IT service delivery.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$300 | Time: 2 months | Jobs: 400k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # Excluded: Cisco, Salesforce
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✗ Cisco CCNA/CCNP"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-            # Get Salary Estimate button
-            div(
-              style = "margin-top: 20px;",
-              actionButton("estimate_btn", "Get Salary Estimate", 
-                          style = "background-color: #2196F3; color: white; width: 100%; padding: 10px;")
-            )
-          )
-        ),
-        
-        # RESULTS PANEL
-        column(
-          8,
-          div(
-            style = "background-color: #fff; border: 2px solid #2196F3; padding: 20px; border-radius: 8px;",
-            h3("Your Estimate"),
             
             # Main prediction value
             div(
@@ -577,6 +644,8 @@ ui <- fluidPage(
                 style = "font-weight: bold; color: #333; margin-bottom: 8px;"
               ),
               tags$ul(
+                tags$li("Base salary for your rank & years of service (VALIDATED from military data)"),
+                tags$li("Additional salary premiums from each selected certification (market-based estimates)"),
                 tags$li("Model accuracy (±$5,003 historical error)"),
                 tags$li("Company size variation (small startup vs Fortune 500 = ~15% difference)"),
                 tags$li("Salary negotiation & market fluctuations"),
@@ -746,65 +815,245 @@ ui <- fluidPage(
 server <- function(input, output) {
   
   # ========================================================================
-  # ROLE-BASED CERTIFICATION MAPPING
+  # OCCUPATION → CATEGORY MAPPING (36 military occupations → 7 categories)
   # ========================================================================
-  # Map occupational roles to relevant certifications
   
-  role_cert_mapping <- list(
-    "Accountant" = list(
-      highly_relevant = c("AWS Analytics Specialty", "GCP Data Engineer"),
-      relevant = c("Azure Data Engineer", "Databricks Certified Engineer"),
-      optional = c("AWS Solutions Architect Associate", "Project Management Professional")
-    ),
-    "Administrator" = list(
-      highly_relevant = c("AWS Solutions Architect Associate", "Azure Administrator"),
-      relevant = c("GCP Cloud Engineer", "Kubernetes (CKA)"),
-      optional = c("Terraform", "Security+", "ITIL")
-    ),
-    "Analyst" = list(
-      highly_relevant = c("AWS Analytics Specialty", "GCP Data Engineer", "Databricks Certified Engineer"),
-      relevant = c("Azure Data Engineer", "AWS Solutions Architect Associate"),
-      optional = c("Tableau", "Power BI", "Project Management Professional")
-    ),
-    "Engineer" = list(
-      highly_relevant = c("AWS Solutions Architect Associate", "Kubernetes (CKA)", "Terraform"),
-      relevant = c("Azure Administrator", "GCP Cloud Engineer", "AWS Solutions Architect Professional"),
-      optional = c("CISSP", "Security+", "Databricks Certified Engineer")
-    ),
-    "Manager" = list(
-      highly_relevant = c("Project Management Professional", "Project+ (CompTIA)", "ITIL"),
-      relevant = c("AWS Solutions Architect Associate", "Azure Administrator"),
-      optional = c("GCP Cloud Engineer", "Kubernetes (CKA)", "Security+")
-    ),
-    "Specialist" = list(
-      highly_relevant = c("AWS Solutions Architect Associate", "Kubernetes (CKA)", "Terraform"),
-      relevant = c("CISSP", "Security+", "Azure Administrator"),
-      optional = c("GCP Cloud Engineer", "AWS Solutions Architect Professional")
-    ),
-    "Systems Administrator" = list(
-      highly_relevant = c("AWS Solutions Architect Associate", "Azure Administrator", "Security+"),
-      relevant = c("Kubernetes (CKA)", "ITIL", "GCP Cloud Engineer"),
-      optional = c("Terraform", "CISSP", "Project Management Professional")
-    ),
-    "Technician" = list(
-      highly_relevant = c("Security+", "CompTIA Project+", "ITIL"),
-      relevant = c("AWS Solutions Architect Associate", "Azure Administrator"),
-      optional = c("Kubernetes (CKA)", "Terraform", "GCP Cloud Engineer")
-    )
+  occupation_category_mapping <- list(
+    "Aerospace Medical Technician" = "Medical (Clinical)",
+    "Air Battle Manager" = "Operations Management",
+    "Ammunition Specialist" = "Engineering & Maintenance",
+    "Automated Logistical Specialist" = "Logistics & Supply",
+    "Avionics Flight Test Technician" = "Engineering & Maintenance",
+    "Combat Medic" = "Medical (Clinical)",
+    "Communications and Information Officer" = "Cyber/IT Operations",
+    "Communications Technician" = "Cyber/IT Operations",
+    "Cyber Operational Intelligence Analyst" = "Intelligence & Analysis",
+    "Cyber Operations Specialist" = "Intelligence & Analysis",
+    "Cyber Warfare Operations Specialist" = "Intelligence & Analysis",
+    "Cyber Warfare Operator" = "Cyber/IT Operations",
+    "Data Network Technician" = "Cyber/IT Operations",
+    "Engineman" = "Engineering & Maintenance",
+    "Hospital Corpsman" = "Medical (Clinical)",
+    "Human Resources Officer" = "HR Management",
+    "Human Resources Specialist" = "HR Management",
+    "Information Technology Specialist" = "Cyber/IT Operations",
+    "Intelligence Analyst" = "Intelligence & Analysis",
+    "Intelligence Officer" = "Intelligence & Analysis",
+    "Intelligence Specialist" = "Intelligence & Analysis",
+    "Inventory Management Specialist" = "Logistics & Supply",
+    "Logistics Readiness Officer" = "Logistics & Supply",
+    "Machinery Repairman" = "Engineering & Maintenance",
+    "Medical Laboratory Specialist" = "Medical (Clinical)",
+    "Motor Transport Operator" = "Logistics & Supply",
+    "Operating Room Technician" = "Medical (Clinical)",
+    "Personnel Specialist" = "HR Management",
+    "Radar Repairer" = "Engineering & Maintenance",
+    "Rifleman/Infantry" = "Other/Support",
+    "Signal Support Specialist" = "Cyber/IT Operations",
+    "Signals Intelligence Technician" = "Intelligence & Analysis",
+    "Strike Warfare Officer" = "Operations Management",
+    "Supply Systems Technician" = "Logistics & Supply",
+    "Surface Warfare Officer (SWO)" = "Operations Management",
+    "Unit Supply Specialist" = "Logistics & Supply"
   )
   
-  # Reactive function to get recommended certs for selected role
-  recommended_certs <- reactive({
-    role <- input$occ_select
-    if (role %in% names(role_cert_mapping)) {
-      role_cert_mapping[[role]]
+  # ========================================================================
+  # ROLE-BASED CERTIFICATION MAPPING (Data-Driven: 7 Categories)
+  # Based on actual military salary data analysis
+  # ========================================================================
+  
+  # ========================================================================
+  # CERT TYPE MAPPING: Categorize all certs by their domain
+  # ========================================================================
+  cert_type_mapping <- list(
+    security = c("CISSP", "Security+ (CompTIA)"),
+    cloud = c("AWS Solutions Architect Associate", "Kubernetes (CKA)", "Terraform", 
+              "Azure Administrator", "GCP Cloud Engineer", "AWS Solutions Architect Professional"),
+    data = c("GCP Data Engineer", "AWS Analytics Specialty", "Databricks Certified Engineer", 
+             "Azure Data Engineer"),
+    pm = c("PMP (Project Management Professional)", "Project+ (CompTIA)", "ITIL")
+  )
+  
+  # ========================================================================
+  # FUNCTION: Get relevant certs for category (excludes poor fits)
+  # ========================================================================
+  get_relevant_certs_smart <- function(category) {
+    
+    # Define which cert types are relevant for each category
+    cert_relevance <- case_when(
+      
+      # DATA-FOCUSED ROLES: Data certs highly relevant, cloud optional, PM/Security not recommended
+      category %in% c("Data Analyst", "Data Scientist", "Machine Learning Engineer") ~ {
+        list(
+          highly_relevant = cert_type_mapping$data[1:3],  # GCP, AWS Analytics, Databricks
+          relevant = c(cert_type_mapping$cloud[1], cert_type_mapping$data[4]),  # AWS SA + Azure Data
+          optional = c(cert_type_mapping$cloud[4])  # Kubernetes for infrastructure
+        )
+      },
+      
+      # OPERATIONS RESEARCH (hybrid: data + PM)
+      category == "Operations Research Analyst" ~ {
+        list(
+          highly_relevant = c("Project Management Professional", cert_type_mapping$data[1:2]),  # PMP + data
+          relevant = c("Project+ (CompTIA)", "ITIL", cert_type_mapping$cloud[1]),  # PM + AWS SA
+          optional = c(cert_type_mapping$data[3:4])  # Databricks, Azure Data
+        )
+      },
+      
+      # CYBERSECURITY-FOCUSED: Security + Cloud + PM
+      category == "Cyber/IT Operations" ~ {
+        list(
+          highly_relevant = c("AWS Solutions Architect Associate", "Security+ (CompTIA)", "Azure Administrator"),
+          relevant = c("Kubernetes (CKA)", "GCP Cloud Engineer", "Project+ (CompTIA)"),
+          optional = c("CISSP", "Terraform")
+        )
+      },
+      
+      # ENGINEERING & INFRASTRUCTURE: Cloud + DevOps + Security
+      category == "Engineering & Maintenance" ~ {
+        list(
+          highly_relevant = c("AWS Solutions Architect Associate", "Kubernetes (CKA)", "Terraform"),
+          relevant = c("Azure Administrator", "GCP Cloud Engineer", "AWS Solutions Architect Professional"),
+          optional = c("CISSP", "Security+ (CompTIA)")
+        )
+      },
+      
+      # INTELLIGENCE & ANALYSIS: Data + Cloud (not PM or basic Security+)
+      category == "Intelligence & Analysis" ~ {
+        list(
+          highly_relevant = c("AWS Analytics Specialty", "GCP Data Engineer", "Databricks Certified Engineer"),
+          relevant = c("AWS Solutions Architect Associate", "Security+ (CompTIA)", "Azure Data Engineer"),
+          optional = c("CISSP")
+        )
+      },
+      
+      # OPERATIONS MANAGEMENT: SWO, Air Battle Manager, Strike Warfare Officer
+      # Civilian equivalent: Operations Manager, Project Manager, Management Consultant
+      # Focus: Project management, tactical/operations planning, resource management
+      category == "Operations Management" ~ {
+        list(
+          highly_relevant = c("Project Management Professional", "Project+ (CompTIA)"),
+          relevant = c("ITIL"),  # IT service management for operations planning
+          optional = c("AWS Solutions Architect Associate")  # Only if transitioning to infrastructure/operations
+        )
+      },
+      
+      # HR MANAGEMENT: HR Officer, Personnel Specialist, Human Resources Specialist
+      # Focus: HR project management, organizational development, people management
+      # NOTE: True HR roles need SHRM-CP or PHR (not available in this cert list)
+      category == "HR Management" ~ {
+        list(
+          highly_relevant = c("Project Management Professional", "Project+ (CompTIA)"),
+          relevant = c("ITIL"),  # If managing HR IT systems
+          optional = c("Security+ (CompTIA)")  # Compliance and data protection
+        )
+      },
+      
+      # LOGISTICS & SUPPLY: PM-focused + Cloud support (NOT data)
+      category == "Logistics & Supply" ~ {
+        list(
+          highly_relevant = c("Project Management Professional", "Project+ (CompTIA)", "ITIL"),
+          relevant = c("AWS Solutions Architect Associate", "Azure Administrator"),
+          optional = c("Security+ (CompTIA)", "GCP Cloud Engineer")
+        )
+      },
+      
+      # MEDICAL (CLINICAL): Doctor, Nurse, Paramedic, PA
+      # Clinical credentials needed from state healthcare board, not IT certs
+      category == "Medical (Clinical)" ~ {
+        list(
+          highly_relevant = c(),  # Clinical roles need state medical licenses (RN, MD, EMT-P), not IT certs
+          relevant = c("Security+ (CompTIA)"),  # Only if transitioning to healthcare data privacy roles
+          optional = c()
+        )
+      },
+      
+      # MEDICAL (HEALTHCARE IT): EHR Admin, Health Information Manager, Clinical Systems
+      # AWS, HIPAA compliance, data management for healthcare organizations
+      category == "Medical (Healthcare IT)" ~ {
+        list(
+          highly_relevant = c("Security+ (CompTIA)", "Project Management Professional", "AWS Solutions Architect Associate"),
+          relevant = c("ITIL", "Azure Administrator"),  # Support certs for healthcare IT
+          optional = c()  # Don't show infrastructure certs for healthcare IT
+        )
+      },
+      
+      # OTHER/SUPPORT: General purpose (PM + Security + basic Cloud)
+      category == "Other/Support" ~ {
+        list(
+          highly_relevant = c("Security+ (CompTIA)", "Project+ (CompTIA)", "ITIL"),
+          relevant = c("AWS Solutions Architect Associate", "Azure Administrator"),
+          optional = c("GCP Cloud Engineer")
+        )
+      },
+      
+      # BUSINESS ANALYST: PM + Data hybrid
+      category == "Business Analyst" ~ {
+        list(
+          highly_relevant = c("Project Management Professional", "AWS Analytics Specialty"),  # Core BA skills
+          relevant = c("ITIL", "Azure Data Engineer", "GCP Data Engineer"),  # Supporting certs
+          optional = c()  # Don't show infrastructure certs
+        )
+      },
+      
+      # DEFAULT: Show a balanced set
+      TRUE ~ {
+        list(
+          highly_relevant = c("Project Management Professional", "AWS Solutions Architect Associate", "Security+ (CompTIA)"),
+          relevant = c("ITIL", "Project+ (CompTIA)", "Azure Administrator"),
+          optional = c("GCP Cloud Engineer", "Terraform")
+        )
+      }
+    )
+    
+    return(cert_relevance)
+  }
+  
+  # Generate role_cert_mapping dynamically from smart function
+  # Use CATEGORY names, not occupation names
+  all_categories <- c(
+    unique(unlist(occupation_category_mapping)),  # ✓ Gets 8 functional categories (Medical Clinical, Medical IT, Cyber/IT, etc)
+    c("Data Analyst", "Data Scientist", "Operations Research Analyst", 
+      "Machine Learning Engineer", "Business Analyst", "Medical (Healthcare IT)")  # 6 civilian fields
+  )
+  
+  role_cert_mapping <- stats::setNames(
+    lapply(all_categories, get_relevant_certs_smart),
+    all_categories
+  )
+  
+  # ========================================================================
+  # REACTIVE: Get occupation's category, with career field override
+  # ========================================================================
+  
+  occupation_category <- reactive({
+    # Check if user selected a specific career field (override)
+    career_field <- input$career_field_select
+    
+    if (!is.null(career_field) && career_field != "← Auto-Detect (based on occupation)") {
+      # User selected a specific career field - use that
+      return(career_field)
+    }
+    
+    # Otherwise, auto-detect based on occupation
+    occ <- input$occ_select
+    if (occ %in% names(occupation_category_mapping)) {
+      occupation_category_mapping[[occ]]
     } else {
-      # Default: show all certs
+      "Other/Support"  # Default fallback
+    }
+  })
+  
+  # Reactive function to get recommended certs for selected occupation's category
+  recommended_certs <- reactive({
+    category <- occupation_category()
+    if (category %in% names(role_cert_mapping)) {
+      role_cert_mapping[[category]]
+    } else {
+      # Default: balanced set (shouldn't happen with complete mappings)
       list(
-        highly_relevant = c("AWS Solutions Architect Associate", "Kubernetes (CKA)", "Terraform", 
-                            "Azure Administrator", "GCP Cloud Engineer", "Security+"),
-        relevant = c("AWS Solutions Architect Professional", "GCP Data Engineer", 
-                     "AWS Analytics Specialty", "Databricks Certified Engineer", "Azure Data Engineer"),
+        highly_relevant = c("AWS Solutions Architect Associate", "Kubernetes (CKA)", "Terraform"),
+        relevant = c("Azure Administrator", "GCP Cloud Engineer", "Security+ (CompTIA)"),
         optional = c("CISSP", "Project Management Professional", "Project+ (CompTIA)", "ITIL")
       )
     }
@@ -881,10 +1130,23 @@ server <- function(input, output) {
     # Use ADDITIVE model (like real GLM) NOT multiplicative
     # This prevents compounding errors
     
+    # First, map military occupation to its category, respecting career field override
+    occupation_category <- occupation_category_mapping[[occupation]]
+    if (is.null(occupation_category)) {
+      occupation_category <- "Other/Support"
+    }
+    
+    # Now use the category to look up salary effects
     base <- glm_coefficients$intercept
     rank_adj <- glm_coefficients$rank_effect[[rank]]
     yos_adj <- glm_coefficients$yos_effect * yos
-    occ_adj <- glm_coefficients$occupation_effects[[occupation]]
+    
+    # Use occupation CATEGORY effects instead of old occupation list
+    occ_adj <- glm_coefficients$occupation_effects[[occupation_category]]
+    if (is.null(occ_adj)) {
+      # Fallback for unknown categories
+      occ_adj <- 0
+    }
     
     # Location: convert multiplier to additive adjustment
     # If multiplier is 1.16, that's +16% of base, so ~+$7,200 for $45k base
@@ -906,22 +1168,31 @@ server <- function(input, output) {
     # CERTIFICATION ADJUSTMENTS (additive model per COMBINED_EFFECTS_ANALYSIS.md)
     # ========================================================================
     cert_adj <- 0
-    cert_details <- data.frame()
+    cert_details <- data.frame(
+      name = character(0),
+      premium = numeric(0),
+      caveat = character(0),
+      stringsAsFactors = FALSE
+    )
     overlap_adj <- 0
     
     if (length(certifications_selected) > 0) {
       # Add premium for each selected certification
       for (cert_name in certifications_selected) {
-        cert_info <- glm_coefficients$certifications[[cert_name]]
-        cert_adj <- cert_adj + cert_info$premium
+        cert_info <- certifications[[cert_name]]
         
-        # Store cert details for results display
-        cert_details <- rbind(cert_details, data.frame(
-          name = cert_name,
-          premium = cert_info$premium,
-          caveat = ifelse(is.null(cert_info$caveat), "", cert_info$caveat),
-          stringsAsFactors = FALSE
-        ))
+        # Only process if cert exists in our data
+        if (!is.null(cert_info)) {
+          cert_adj <- cert_adj + cert_info$premium
+          
+          # Store cert details for results display
+          cert_details <- rbind(cert_details, data.frame(
+            name = cert_name,
+            premium = cert_info$premium,
+            caveat = ifelse(is.null(cert_info$caveat), "", cert_info$caveat),
+            stringsAsFactors = FALSE
+          ))
+        }
       }
       
       # Overlap adjustment: if both education and certs selected, apply -$2k
@@ -954,7 +1225,7 @@ server <- function(input, output) {
   }
   
   # Reactive prediction with confidence band
-  pred_values <- eventReactive(input$predict_btn, {
+  pred_values <- eventReactive(input$estimate_btn, {
     # Gather all selected certifications
     certs_selected <- c()
     if (input$cert_cissp) certs_selected <- c(certs_selected, "CISSP (Certified Information Systems Security Professional)")
@@ -1084,9 +1355,20 @@ server <- function(input, output) {
   output$skills_panel <- renderUI({
     selected_occ <- input$occ_select
     
-    # Get skills for selected occupation
+    # First, try to look up occupation directly in occupation_skills
+    # If not found, map using occupation_category_mapping
+    skill_key <- NULL
+    
     if (selected_occ %in% names(occupation_skills)) {
-      skills_data <- occupation_skills[[selected_occ]]
+      skill_key <- selected_occ
+    } else if (selected_occ %in% names(occupation_category_mapping)) {
+      # Map military occupation to category, then use that category key
+      skill_key <- occupation_category_mapping[[selected_occ]]
+    }
+    
+    # Get skills for selected occupation
+    if (!is.null(skill_key) && skill_key %in% names(occupation_skills)) {
+      skills_data <- occupation_skills[[skill_key]]
       required <- skills_data$required
       military_rel <- skills_data$military_relevant
       
@@ -1102,11 +1384,11 @@ server <- function(input, output) {
       })
       
       div(
-        p(strong("Skills Gap Analysis:"), style = "font-size: 12px; font-weight: bold; color: #2c3e50;"),
-        p("Check the skills you already have. Unchecked items represent your current skills gaps.", style = "font-size: 11px; color: #555;"),
+        p(strong("Skills You Likely Have From This Role:"), style = "font-size: 12px; font-weight: bold; color: #2c3e50;"),
+        p("Based on your military occupation, you likely have experience with these skills. These are valuable for civilian career transitions.", style = "font-size: 11px; color: #555;"),
         do.call(tagList, skill_checkboxes),
         p(
-          em("Note: Skills are identified for professional development planning only and do not affect salary estimates."),
+          em("Note: These skills represent your existing military background and are useful for planning your civilian career path. This does not affect salary estimates."),
           style = "font-size: 10px; color: #999; margin-top: 10px; font-style: italic;"
         )
       )
@@ -1117,7 +1399,8 @@ server <- function(input, output) {
   
   # Output: Certification Rationale Box (filtered by role)
   output$cert_rationale_box <- renderUI({
-    role <- input$occ_select
+    occ <- input$occ_select
+    category <- occupation_category()
     recommended <- recommended_certs()
     
     div(
@@ -1128,10 +1411,31 @@ server <- function(input, output) {
         style = "cursor: pointer; user-select: none; margin-bottom: 15px;",
         id = "cert_rationale_toggle",
         h4(
-          span("▼ Why These Certifications for ", strong(role), "?", style = "font-weight: bold;"),
+          span("▼ Why These Certifications for ", strong(category), " Roles?", style = "font-weight: bold;"),
           style = "margin: 0; color: #2196F3;"
         )
       ),
+      
+      # Subtext showing the selected occupation
+      p(
+        em("Based on your selection: "), strong(occ),
+        style = "margin: 0 0 15px 0; font-size: 12px; color: #666;"
+      ),
+      
+      # Special note for Medical professionals
+      if (category == "Medical") {
+        div(
+          style = "background-color: #e3f2fd; padding: 10px; border-radius: 4px; margin-bottom: 15px;",
+          p(strong("📋 Note for Medical Professionals:"), 
+            style = "margin: 0 0 8px 0; color: #1565c0; font-size: 12px;"),
+          p("If continuing clinical healthcare work (paramedic, nurse, physician assistant), 
+            you'll need clinical credentials (EMT, RN license, etc.) from your state healthcare board. 
+            The certifications below apply if transitioning to healthcare IT, management, or administrative roles.",
+            style = "margin: 0; font-size: 11px; color: #555;")
+        )
+      } else {
+        NULL
+      },
       
       # Collapsible content
       div(
@@ -1142,38 +1446,73 @@ server <- function(input, output) {
         div(
           style = "background-color: #fff3cd; padding: 12px; border-radius: 4px; border-left: 3px solid #ffc107; margin-bottom: 15px;",
           p(
-            em("⚠️ IMPORTANT: Certifications may not guarantee a pay raise. Our analysis found correlations in salary data, but causation varies by employer, role, and market. Consider pursuing certifications also for professional growth, career advancement, personal goals, and industry credibility."),
+            em("⚠️ IMPORTANT: These are recommended certifications based on industry standards, NOT validated salary predictions. "),
+            em("This tool does NOT guarantee employment outcomes, salary increases, or hiring decisions. "),
+            em("Actual career impact depends on employer, location, experience, and negotiation—not just certifications."),
             style = "margin: 0; font-size: 12px; color: #333;"
           )
         ),
         
+        # Methodology box
+        div(
+          style = "background-color: #f5f5f5; padding: 12px; border-radius: 4px; margin-bottom: 15px; border-left: 3px solid #999;",
+          p(strong("📊 Data Sources & Methodology:"), 
+            style = "margin: 0 0 6px 0; color: #333; font-size: 12px;"),
+          p(strong("✓ Certification Recommendations:"), " Based on official vendor materials (AWS, Microsoft, CompTIA docs) and industry standards for role-relevant certifications",
+            style = "margin: 0 0 4px 0; font-size: 11px; color: #333;"),
+          p(strong("✓ Market Salary Context:"), " Extracted from CompTIA Tech Jobs Report (September 2025 Release) and Dice.com salary surveys. Market averages shown for reference only.",
+            style = "margin: 0 0 4px 0; font-size: 11px; color: #333;"),
+          p(strong("⚠️ Important Limitations:"), " Salary data reflects market averages by skill (not individual certified professionals). Actual outcomes vary by location, employer, experience, and negotiation.",
+            style = "margin: 0; font-size: 11px; color: #d32f2f;")
+        ),
+        
         # Highly Relevant
-        p(strong("🔵 HIGHLY RELEVANT for ", role, ":"), style = "margin-top: 15px; margin-bottom: 10px; color: #1565c0;"),
+        p(strong("🔵 HIGHLY RELEVANT for ", category, ":"), style = "margin-top: 15px; margin-bottom: 10px; color: #1565c0;"),
         do.call(tagList, lapply(recommended$highly_relevant, function(cert) {
+          # Context-specific descriptions based on cert + category
+          desc <- case_when(
+            cert == "Security+" & category == "Medical (Clinical)" ~ "Essential for healthcare data protection and HIPAA compliance if transitioning to healthcare IT roles.",
+            cert == "Project Management Professional" & category == "Medical (Healthcare IT)" ~ "Recognized credential for healthcare IT project management, EHR implementations, and clinical systems rollouts.",
+            cert == "AWS Solutions Architect Associate" & category == "Medical (Healthcare IT)" ~ "Cloud architecture expertise for healthcare organizations using AWS for EHR platforms and health data management.",
+            cert == "Security+" & category == "Cyber/IT Operations" ~ "Foundational security certification. Broadly applicable across IT operations and security roles.",
+            cert == "GCP Data Engineer" & category == "Data Scientist" ~ "Industry-standard credential for data engineering and analytics roles using Google Cloud Platform.",
+            cert == "AWS Analytics Specialty" & category == "Data Scientist" ~ "Demonstrates expertise in AWS analytics services, widely used in enterprise data roles.",
+            TRUE ~ paste("Relevant certification for", tolower(category), "roles. Demonstrates key competencies in this field.")
+          )
+          
           div(
             style = "margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;",
             p(strong(cert), style = "margin: 0 0 5px 0;"),
-            p("This certification directly applies to ", tolower(role), " roles and offers strong ROI in the job market.", style = "margin: 0; font-size: 12px; color: #666;")
+            p(desc, style = "margin: 0; font-size: 12px; color: #666;")
           )
         })),
         
         # Relevant
-        p(strong("🟢 RELEVANT for ", role, ":"), style = "margin-top: 15px; margin-bottom: 10px; color: #388e3c;"),
+        p(strong("🟢 RELEVANT for ", category, ":"), style = "margin-top: 15px; margin-bottom: 10px; color: #388e3c;"),
         do.call(tagList, lapply(recommended$relevant, function(cert) {
+          # Context-specific descriptions
+          desc <- case_when(
+            cert == "ITIL" & category == "Medical (Healthcare IT)" ~ "IT Service Management framework. Relevant if managing healthcare IT operations and clinical systems.",
+            cert == "Azure Administrator" & category == "Medical (Healthcare IT)" ~ "Cloud platform expertise for healthcare organizations using Microsoft Azure infrastructure.",
+            cert == "ITIL" & category == "Operations Management" ~ "IT Service Management framework. Relevant if managing IT operations or technology-dependent processes.",
+            cert == "Kubernetes (CKA)" & category == "Data Scientist" ~ "Container orchestration expertise. Valuable for deploying machine learning models in production environments.",
+            TRUE ~ paste("Supports", tolower(category), "skills and expands career options in related areas.")
+          )
+          
           div(
             style = "margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;",
             p(strong(cert), style = "margin: 0 0 5px 0;"),
-            p("This certification complements ", tolower(role), " skills and broadens career opportunities.", style = "margin: 0; font-size: 12px; color: #666;")
+            p(desc, style = "margin: 0; font-size: 12px; color: #666;")
           )
         })),
         
         # Optional
-        p(strong("🟡 OPTIONAL for ", role, ":"), style = "margin-top: 15px; margin-bottom: 10px; color: #f57c00;"),
+        p(strong("🟡 OPTIONAL for ", category, ":"), style = "margin-top: 15px; margin-bottom: 10px; color: #f57c00;"),
         do.call(tagList, lapply(recommended$optional, function(cert) {
           div(
             style = "margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;",
             p(strong(cert), style = "margin: 0 0 5px 0;"),
-            p("Useful for career diversification or specialization within ", tolower(role), " field.", style = "margin: 0; font-size: 12px; color: #666;")
+            p("Provides specialization or skill diversification. Consider if transitioning to related roles.", style = "margin: 0; font-size: 12px; color: #666;")
           )
         }))
       )
