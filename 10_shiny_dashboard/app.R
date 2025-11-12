@@ -504,202 +504,23 @@ ui <- fluidPage(
               checkboxInput("cert_pmp", "PMP (Project Management Professional)"),
               checkboxInput("cert_projectplus", "Project+ (CompTIA)"),
               checkboxInput("cert_itil", "ITIL"),
+            ),
+                
+            # Get Salary Estimate button
+            div(
+              style = "margin-top: 20px;",
+              actionButton("estimate_btn", "Get Salary Estimate", 
+                          style = "background-color: #2196F3; color: white; width: 100%; padding: 10px;")
             )
-                
-                # Collapsible button
-                div(
-                  style = "cursor: pointer; user-select: none; margin-bottom: 15px;",
-                  id = "cert_rationale_toggle",
-                  h5(
-                    span("▼ Why These Certifications?", style = "font-weight: bold;"),
-                    style = "margin: 0; color: #2196F3;"
-                  )
-                ),
-                
-                # Rationale content (collapsible)
-                div(
-                  id = "cert_rationale_content",
-                  style = "display: block; padding-top: 10px;",
-                  
-                  # Caveat box
-                  div(
-                    style = "background-color: #fff3cd; padding: 12px; border-radius: 4px; border-left: 3px solid #ffc107; margin-bottom: 15px;",
-                    p(
-                      em("⚠️ IMPORTANT: Certifications may not guarantee a pay raise. Our analysis found correlations in salary data, but causation varies by employer, role, and market. Consider pursuing certifications also for professional growth, career advancement, personal goals, and industry credibility."),
-                      style = "margin: 0; font-size: 12px; color: #333;"
-                    )
-                  ),
-                  
-                  # ========== CYBERSECURITY FIELD ==========
-                  p(strong("🔒 Cybersecurity", style = "color: #d32f2f;"), style = "margin-top: 15px; margin-bottom: 10px;"),
-                  
-                  # CISSP
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ CISSP (Certified Information Systems Security Professional)"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Industry-leading credential for senior security professionals. Professionals with CISSP show correlation with +$35k salary premium. High barrier to entry (5 yrs experience required) indicates seniority.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$749 | Time: 6 months | Jobs: 600k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # Security+
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ Security+ (CompTIA)"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Vendor-neutral cybersecurity certification. Professionals with Security+ show +$4k correlation. DoD 8570 requirement for many government/defense roles. Good foundation before CISSP.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$330 | Time: 2 months | Jobs: 400k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # ========== CLOUD & DEVOPS FIELD ==========
-                  p(strong("☁️ Cloud & DevOps", style = "color: #1976d2;"), style = "margin-top: 15px; margin-bottom: 10px;"),
-                  
-                  # AWS
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ AWS Solutions Architect Associate"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Cloud skills in highest demand. AWS certification holders show +$39k correlation, highest among all credentials. Cloud adoption accelerating across industries.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$300 | Time: 3 months | Jobs: 900k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # Kubernetes
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ Kubernetes (CKA)"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Container orchestration is critical for DevOps/platform engineering. CKA holders show +$36k correlation. Kubernetes adoption now standard in enterprise.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$395 | Time: 3 months | Jobs: 400k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # Terraform
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ Terraform Associate"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Infrastructure-as-Code tool in rapid adoption. Terraform cert holders show +$28k correlation. Valued by DevOps/SRE teams managing multi-cloud infrastructure.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$200 | Time: 2 months | Jobs: 350k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # Azure
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ Azure Administrator"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Microsoft cloud platform certification. Azure cert holders show +$29k correlation. Microsoft enterprise dominance ensures steady job market. Often paired with AWS for multi-cloud roles.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$165 | Time: 3 months | Jobs: 500k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # GCP
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ GCP Cloud Engineer"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Google cloud platform certification. GCP cert holders show +$27k correlation. Valuable for companies using Google Cloud, BigQuery, and AI/ML services. Completing cloud trio (AWS/Azure/GCP).", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$200 | Time: 3 months | Jobs: 350k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # AWS Pro
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ AWS Solutions Architect Professional"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Advanced AWS specialization. AWS Pro cert holders show +$3k additional (on top of Associate +$39k = ~$42k total). Requires deeper expertise. Recommended after Associate certification.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$300 | Time: 4 months | Jobs: 800k+ (AWS overall)", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # Excluded: Tableau, Power BI
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✗ Tableau Certification"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-                    p("Why excluded: BI tool market declining as companies consolidate to Power BI or cloud-native analytics. Only 80k jobs vs AWS 900k. Cloud analytics certs offer better ROI.", style = "margin: 0; font-size: 12px;")
-                  ),
-                  
-                  div(
-                    style = "margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #bbb;",
-                    p(strong("✗ Power BI Certification"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-                    p("Why excluded: Microsoft BI tool, narrower market (120k jobs) than cloud platforms. If pursuing Microsoft path, Azure Data Engineer includes BI skills for broader applicability.", style = "margin: 0; font-size: 12px;")
-                  ),
-                  
-                  # ========== DATA SCIENCE FIELD ==========
-                  p(strong("📊 Data Science", style = "color: #388e3c;"), style = "margin-top: 15px; margin-bottom: 10px;"),
-                  
-                  # GCP Data Engineer
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ GCP Data Engineer"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Big data and analytics specialization on Google Cloud. GCP Data Eng cert holders show +$35k correlation. Critical for companies using BigQuery, DataFlow, and AI services. Growing data market.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$200 | Time: 3 months | Jobs: 250k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # AWS Analytics
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ AWS Analytics Specialty"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Analytics and business intelligence on AWS. AWS Analytics cert holders show +$32k correlation. Combines cloud infrastructure + analytics skills. High demand for data professionals.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$300 | Time: 3 months | Jobs: 600k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # Databricks
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ Databricks Certified Associate Engineer"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Apache Spark and lakehouse data platform expertise. Databricks cert holders show +$30k correlation. Increasingly preferred by companies moving beyond traditional data warehouses.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$150 | Time: 3 months | Jobs: 180k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # Azure Data
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ Azure Data Engineer"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Data engineering on Microsoft Azure platform. Azure Data Eng cert holders show +$28k correlation. Strong in enterprise environments with SQL Server and Power BI integration.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$165 | Time: 3 months | Jobs: 400k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # Excluded: Snowflake, SQL, CAP, Cloudera, MongoDB, Oracle
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✗ Snowflake Certification"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-                    p("Why excluded: Growing market (70k jobs) but immature. If market reaches 200k+ jobs by 2026, recommend inclusion. Currently outpaced by cloud data giants.", style = "margin: 0; font-size: 12px;")
-                  ),
-                  
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✗ SQL Server Certification"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-                    p("Why excluded: SQL is a prerequisite, not standalone credential. Better to pair SQL skills with cloud certs (Azure, AWS) for 2x impact. Standalone cert has niche market (150k jobs vs cloud 900k+).", style = "margin: 0; font-size: 12px;")
-                  ),
-                  
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✗ CAP (Certified Analytics Professional)"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-                    p("Why excluded: Niche credential. Only 100k jobs vs AWS 900k. ROI ratio 2.2:1 vs AWS 13:1. Market growing only 2-3%/year. Recommend as Phase 2 if market expands.", style = "margin: 0; font-size: 12px;")
-                  ),
-                  
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✗ Cloudera Hadoop Certification"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-                    p("Why excluded: Hadoop market declining ~5%/year. Companies migrating to cloud data platforms (Databricks, Snowflake, BigQuery). Cloud-native certs have better trajectory.", style = "margin: 0; font-size: 12px;")
-                  ),
-                  
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✗ MongoDB Certification"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-                    p("Why excluded: NoSQL database niche (70k jobs). Most employers want multi-database skills or cloud-data platform skills. Cloud certs cover distributed databases more broadly.", style = "margin: 0; font-size: 12px;")
-                  ),
-                  
-                  div(
-                    style = "margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #bbb;",
-                    p(strong("✗ Oracle Database Certification"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-                    p("Why excluded: Enterprise niche (90k jobs). Oracle market legacy-focused; cloud alternatives more growth-focused. Better ROI pursuing cloud certs unless already Oracle-experienced.", style = "margin: 0; font-size: 12px;")
-                  ),
-                  
-                  # ========== IT MANAGEMENT FIELD ==========
-                  p(strong("📋 IT Management", style = "color: #f57c00;"), style = "margin-top: 15px; margin-bottom: 10px;"),
-                  
-                  # PMP
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ PMP (Project Management Professional)"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
-                    p("Gold standard for project managers globally. PMP cert holders show +$11k correlation. Note: salary impact varies by role and promotion eligibility. May require management advancement for full benefit.", style = "margin: 0 0 5px 0; font-size: 12px;"),
-                    p("Investment: ~$555 | Time: 6 months | Jobs: 500k+", style = "margin: 0; font-size: 11px; color: #666;")
-                  ),
-                  
-                  # CompTIA Project+
-                  div(
-                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
-                    p(strong("✓ Project+ (CompTIA)"), style = "margin: 0 0 5px 0; color: #2e7d32;"),
+          )
+        ),
+        
+        # RESULTS PANEL
+        column(
+          8,
+          div(
+            style = "background-color: #fff; border: 2px solid #2196F3; padding: 20px; border-radius: 8px;",
+            h3("Your Estimate"),
                     p("Entry-level project management credential from CompTIA. Project+ cert holders show +$10k correlation. Good stepping stone before PMP. Lower barrier to entry (no experience requirement).", style = "margin: 0 0 5px 0; font-size: 12px;"),
                     p("Investment: ~$400 | Time: 3 months | Jobs: 500k+", style = "margin: 0; font-size: 11px; color: #666;")
                   ),
@@ -716,25 +537,11 @@ ui <- fluidPage(
                   div(
                     style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
                     p(strong("✗ Cisco CCNA/CCNP"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-                    p("Why excluded: Network engineering niche (120k jobs). Growing but slower (2%/year) than cloud (15%+). Recommend for network specialists; for general IT, cloud certs have broader impact.", style = "margin: 0; font-size: 12px;")
-                  ),
-                  
-                  div(
-                    style = "margin-bottom: 12px;",
-                    p(strong("✗ Salesforce Developer/Admin"), style = "margin: 0 0 5px 0; color: #d32f2f;"),
-                    p("Why excluded: CRM platform-specific (140k jobs). High barrier requiring Salesforce ecosystem access. ROI depends heavily on local job market saturation. Consider if in Salesforce-heavy region.", style = "margin: 0; font-size: 12px;")
-                  )
-                )
-              )
-            ),
-            
-            # Predict Button
-            br(),
-            actionButton(
-              "predict_btn",
-              "Get Salary Estimate",
-              class = "btn btn-primary btn-lg",
-              style = "width: 100%;"
+            # Get Salary Estimate button
+            div(
+              style = "margin-top: 20px;",
+              actionButton("estimate_btn", "Get Salary Estimate", 
+                          style = "background-color: #2196F3; color: white; width: 100%; padding: 10px;")
             )
           )
         ),
