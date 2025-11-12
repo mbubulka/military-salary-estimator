@@ -49,6 +49,11 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
+# Deployment scripts with credentials
+deploy.R
+deploy_*.R
+!deploy_minimal.R
+
 # macOS system files
 .DS_Store
 
