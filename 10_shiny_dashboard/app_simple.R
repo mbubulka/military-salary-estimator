@@ -935,3 +935,7 @@ server <- function(input, output) {
 
 options(shiny.port = 8100)
 shinyApp(ui = ui, server = server)
+library(rsconnect)
+setwd("D:/R projects/week 15/Presentation Folder/10_shiny_dashboard")
+deployApp(appName = "military-salary-estimator", forceUpdate = TRUE)
+
