@@ -62,7 +62,152 @@ glm_coefficients <- list(
     "PhD/Doctorate" = 1.65
   ),
   # Field-related bonus (if education matches target occupation)
-  field_related_bonus = 0.10  # 10% salary boost if field-related
+  field_related_bonus = 0.10,  # 10% salary boost if field-related
+  
+  # ========================================================================
+  # CERTIFICATION DATA - All verified from official sources
+  # ========================================================================
+  certifications = list(
+    # CYBERSECURITY (2 certs)
+    "CISSP (Certified Information Systems Security Professional)" = list(
+      premium = 35000,
+      field = "Cybersecurity",
+      cost = 749,
+      time_months = 6,
+      jobs = "600k+",
+      roi = "5.8:1",
+      caveat = NULL
+    ),
+    "Security+ (CompTIA)" = list(
+      premium = 4000,
+      field = "Cybersecurity",
+      cost = 400,
+      time_months = 2,
+      jobs = "1.5M+",
+      roi = "4:1",
+      caveat = "Entry-level, prerequisite for CISSP"
+    ),
+    # CLOUD & DEVOPS (6 certs)
+    "AWS Solutions Architect Associate" = list(
+      premium = 39000,
+      field = "Cloud & DevOps",
+      cost = 300,
+      time_months = 3,
+      jobs = "900k+",
+      roi = "13:1",
+      caveat = NULL
+    ),
+    "Kubernetes (CKA)" = list(
+      premium = 36000,
+      field = "Cloud & DevOps",
+      cost = 395,
+      time_months = 3,
+      jobs = "400k+",
+      roi = "12:1",
+      caveat = NULL
+    ),
+    "Terraform" = list(
+      premium = 28000,
+      field = "Cloud & DevOps",
+      cost = 70,
+      time_months = 2,
+      jobs = "200k+",
+      roi = "11.2:1",
+      caveat = NULL
+    ),
+    "Azure Administrator" = list(
+      premium = 29000,
+      field = "Cloud & DevOps",
+      cost = 165,
+      time_months = 2,
+      jobs = "500k+",
+      roi = "11.6:1",
+      caveat = NULL
+    ),
+    "GCP Cloud Engineer" = list(
+      premium = 27000,
+      field = "Cloud & DevOps",
+      cost = 200,
+      time_months = 2,
+      jobs = "300k+",
+      roi = "10.8:1",
+      caveat = NULL
+    ),
+    "AWS Solutions Architect Professional" = list(
+      premium = 3000,
+      field = "Cloud & DevOps",
+      cost = 300,
+      time_months = 2,
+      jobs = "100k+",
+      roi = "1.2:1",
+      caveat = "Specialization (stacks with AWS Associate)"
+    ),
+    # DATA SCIENCE (4 certs)
+    "GCP Data Engineer" = list(
+      premium = 35000,
+      field = "Data Science",
+      cost = 200,
+      time_months = 4,
+      jobs = "400k+",
+      roi = "13:1",
+      caveat = NULL
+    ),
+    "AWS Analytics Specialty" = list(
+      premium = 32000,
+      field = "Data Science",
+      cost = 300,
+      time_months = 3,
+      jobs = "300k+",
+      roi = "12.8:1",
+      caveat = NULL
+    ),
+    "Databricks Certified Engineer" = list(
+      premium = 30000,
+      field = "Data Science",
+      cost = 300,
+      time_months = 4,
+      jobs = "120k+",
+      roi = "12:1",
+      caveat = NULL
+    ),
+    "Azure Data Engineer" = list(
+      premium = 28000,
+      field = "Data Science",
+      cost = 165,
+      time_months = 3,
+      jobs = "200k+",
+      roi = "11.2:1",
+      caveat = NULL
+    ),
+    # IT MANAGEMENT (3 certs)
+    "PMP (Project Management Professional)" = list(
+      premium = 11000,
+      field = "IT Management",
+      cost = 5555,
+      time_months = 5,
+      jobs = "600k+",
+      roi = "2:1",
+      caveat = "⚠️ Realistic avg (+$11k assumes 60% promotion to PM). If promoted: +$18k. If staying IC: +$2-5k."
+    ),
+    "Project+ (CompTIA)" = list(
+      premium = 10000,
+      field = "IT Management",
+      cost = 400,
+      time_months = 2,
+      jobs = "300k+",
+      roi = "2.5:1",
+      caveat = "Entry-level PM cert"
+    ),
+    "ITIL" = list(
+      premium = 10000,
+      field = "IT Management",
+      cost = 400,
+      time_months = 2,
+      jobs = "400k+",
+      roi = "2:1",
+      caveat = "IT Operations/Service Management focus"
+    )
+  )
 )
 
 # Skills by occupation (required skills + military-relevant skills)
@@ -290,6 +435,55 @@ ui <- fluidPage(
               value = FALSE
             ),
             
+            # ========================================================================
+            # CERTIFICATION SECTION - Expandable/Collapsible
+            # ========================================================================
+            hr(),
+            h4("📚 Professional Certifications (Optional)", style = "margin-top: 20px;"),
+            p(em("Select any certifications you hold to estimate additional salary boost"),
+              style = "color: #666; font-size: 12px;"),
+            
+            # CYBERSECURITY
+            div(
+              style = "margin-top: 15px; margin-bottom: 10px;",
+              h5("🔒 Cybersecurity", style = "color: #d32f2f; margin-bottom: 8px;"),
+              checkboxInput("cert_cissp", "CISSP (+$35k) - Info Security Professional"),
+              checkboxInput("cert_secplus", "Security+ (+$4k) - Foundational cert"),
+            ),
+            
+            # CLOUD & DEVOPS
+            div(
+              style = "margin-top: 15px; margin-bottom: 10px;",
+              h5("☁️ Cloud & DevOps", style = "color: #1976d2; margin-bottom: 8px;"),
+              checkboxInput("cert_aws_aa", "AWS Solutions Architect Associate (+$39k)"),
+              checkboxInput("cert_kubernetes", "Kubernetes CKA (+$36k)"),
+              checkboxInput("cert_terraform", "Terraform (+$28k)"),
+              checkboxInput("cert_azure", "Azure Administrator (+$29k)"),
+              checkboxInput("cert_gcp", "GCP Cloud Engineer (+$27k)"),
+              checkboxInput("cert_aws_pro", "AWS Solutions Architect Professional (+$3k)"),
+            ),
+            
+            # DATA SCIENCE
+            div(
+              style = "margin-top: 15px; margin-bottom: 10px;",
+              h5("📊 Data Science", style = "color: #388e3c; margin-bottom: 8px;"),
+              checkboxInput("cert_gcp_data", "GCP Data Engineer (+$35k)"),
+              checkboxInput("cert_aws_analytics", "AWS Analytics Specialty (+$32k)"),
+              checkboxInput("cert_databricks", "Databricks Certified Engineer (+$30k)"),
+              checkboxInput("cert_azure_data", "Azure Data Engineer (+$28k)"),
+            ),
+            
+            # IT MANAGEMENT
+            div(
+              style = "margin-top: 15px; margin-bottom: 10px;",
+              h5("📋 IT Management", style = "color: #f57c00; margin-bottom: 8px;"),
+              checkboxInput("cert_pmp", "PMP - Project Management Professional (+$11k avg)"),
+              span(em("⚠️ Assumes 60% promotion to PM. If promoted: +$18k. If staying IC: +$2-5k."),
+                   style = "color: #d32f2f; font-size: 11px; margin-left: 20px; display: block; margin-top: 3px;"),
+              checkboxInput("cert_projectplus", "Project+ CompTIA (+$10k)"),
+              checkboxInput("cert_itil", "ITIL (+$10k)"),
+            ),
+            
             # Predict Button
             br(),
             actionButton(
@@ -343,6 +537,9 @@ ui <- fluidPage(
                 style = "font-size: 12px; color: #ff6b00; font-weight: bold;"
               )
             ),
+            
+            # Certification breakdown (if any certs selected)
+            uiOutput("cert_breakdown"),
             
             # Disclaimer
             div(
@@ -561,7 +758,7 @@ server <- function(input, output) {
   
   # Simple prediction function (demo)
   # NOTE: Skills are NOT included in salary calculation - used for gap analysis only
-  predict_demo <- function(rank, yos, occupation, location, education, field_related) {
+  predict_demo <- function(rank, yos, occupation, location, education, field_related, certifications_selected) {
     # Use ADDITIVE model (like real GLM) NOT multiplicative
     # This prevents compounding errors
     
@@ -586,24 +783,85 @@ server <- function(input, output) {
       field_adj <- base * glm_coefficients$field_related_bonus * 0.5  # Modest boost
     }
     
+    # ========================================================================
+    # CERTIFICATION ADJUSTMENTS (additive model per COMBINED_EFFECTS_ANALYSIS.md)
+    # ========================================================================
+    cert_adj <- 0
+    cert_details <- data.frame()
+    overlap_adj <- 0
+    
+    if (length(certifications_selected) > 0) {
+      # Add premium for each selected certification
+      for (cert_name in certifications_selected) {
+        cert_info <- glm_coefficients$certifications[[cert_name]]
+        cert_adj <- cert_adj + cert_info$premium
+        
+        # Store cert details for results display
+        cert_details <- rbind(cert_details, data.frame(
+          name = cert_name,
+          premium = cert_info$premium,
+          caveat = ifelse(is.null(cert_info$caveat), "", cert_info$caveat),
+          stringsAsFactors = FALSE
+        ))
+      }
+      
+      # Overlap adjustment: if both education and certs selected, apply -$2k
+      # (diminishing returns when combining degree + cert)
+      if (education != "High School Diploma" && cert_adj > 0) {
+        overlap_adj <- -2000
+      }
+    }
+    
     # Sum all adjustments (additive, not multiplicative)
-    final_estimate <- base + rank_adj + yos_adj + occ_adj + location_adj + education_adj + field_adj
+    final_estimate <- base + rank_adj + yos_adj + occ_adj + location_adj + education_adj + field_adj + cert_adj + overlap_adj
     
     # Floor at reasonable minimum
     final_estimate <- max(final_estimate, 35000)
     
-    return(final_estimate)
+    # Return estimate with breakdown details
+    return(list(
+      estimate = final_estimate,
+      base = base,
+      rank_adj = rank_adj,
+      yos_adj = yos_adj,
+      occ_adj = occ_adj,
+      location_adj = location_adj,
+      education_adj = education_adj,
+      field_adj = field_adj,
+      cert_adj = cert_adj,
+      overlap_adj = overlap_adj,
+      cert_details = cert_details
+    ))
   }
   
   # Reactive prediction with confidence band
   pred_values <- eventReactive(input$predict_btn, {
+    # Gather all selected certifications
+    certs_selected <- c()
+    if (input$cert_cissp) certs_selected <- c(certs_selected, "CISSP (Certified Information Systems Security Professional)")
+    if (input$cert_secplus) certs_selected <- c(certs_selected, "Security+ (CompTIA)")
+    if (input$cert_aws_aa) certs_selected <- c(certs_selected, "AWS Solutions Architect Associate")
+    if (input$cert_kubernetes) certs_selected <- c(certs_selected, "Kubernetes (CKA)")
+    if (input$cert_terraform) certs_selected <- c(certs_selected, "Terraform")
+    if (input$cert_azure) certs_selected <- c(certs_selected, "Azure Administrator")
+    if (input$cert_gcp) certs_selected <- c(certs_selected, "GCP Cloud Engineer")
+    if (input$cert_aws_pro) certs_selected <- c(certs_selected, "AWS Solutions Architect Professional")
+    if (input$cert_gcp_data) certs_selected <- c(certs_selected, "GCP Data Engineer")
+    if (input$cert_aws_analytics) certs_selected <- c(certs_selected, "AWS Analytics Specialty")
+    if (input$cert_databricks) certs_selected <- c(certs_selected, "Databricks Certified Engineer")
+    if (input$cert_azure_data) certs_selected <- c(certs_selected, "Azure Data Engineer")
+    if (input$cert_pmp) certs_selected <- c(certs_selected, "PMP (Project Management Professional)")
+    if (input$cert_projectplus) certs_selected <- c(certs_selected, "Project+ (CompTIA)")
+    if (input$cert_itil) certs_selected <- c(certs_selected, "ITIL")
+    
     pred <- predict_demo(
       input$rank_select,
       input$yos_select,
       input$occ_select,
       input$location_select,
       input$education_select,
-      input$field_related
+      input$field_related,
+      certs_selected
     )
     
     # Confidence band includes:
@@ -612,17 +870,18 @@ server <- function(input, output) {
     # 3. Salary negotiation & other unknowns
     
     model_rmse <- 5003  # From model accuracy
-    company_size_adj <- pred * 0.15  # 15% company size uncertainty
+    company_size_adj <- pred$estimate * 0.15  # 15% company size uncertainty
     
     # Total uncertainty: combine model error + company size variation
     # Using standard error combination: sqrt(RMSE^2 + company_size^2)
     total_uncertainty <- sqrt(model_rmse^2 + company_size_adj^2)
     
     list(
-      estimate = pred,
-      lower = pred - total_uncertainty,
-      upper = pred + total_uncertainty,
-      uncertainty = total_uncertainty
+      estimate = pred$estimate,
+      lower = pred$estimate - total_uncertainty,
+      upper = pred$estimate + total_uncertainty,
+      uncertainty = total_uncertainty,
+      details = pred  # Pass through full breakdown
     )
   })
   
@@ -639,6 +898,66 @@ server <- function(input, output) {
       "$", format(round(pred$lower, 0), big.mark = ","),
       " to ",
       "$", format(round(pred$upper, 0), big.mark = ",")
+    )
+  })
+  
+  # Output: Certification breakdown
+  output$cert_breakdown <- renderUI({
+    pred <- pred_values()
+    
+    # If no certifications selected, show nothing
+    if (nrow(pred$details$cert_details) == 0) {
+      return(NULL)
+    }
+    
+    # Build certification list
+    cert_items <- lapply(1:nrow(pred$details$cert_details), function(i) {
+      cert_row <- pred$details$cert_details[i, ]
+      caveat_text <- if (cert_row$caveat != "") {
+        span(
+          br(),
+          em(cert_row$caveat),
+          style = "color: #d32f2f; font-size: 11px;"
+        )
+      } else {
+        NULL
+      }
+      
+      div(
+        span(
+          cert_row$name,
+          span(
+            paste0("+$", format(cert_row$premium, big.mark = ",")),
+            style = "color: #2e7d32; font-weight: bold; margin-left: 10px;"
+          ),
+          style = "font-size: 12px;"
+        ),
+        caveat_text
+      )
+    })
+    
+    # Show overlap adjustment if applicable
+    overlap_text <- if (pred$details$overlap_adj < 0) {
+      div(
+        span(
+          paste0("Overlap adjustment (degree + cert): -$", format(abs(pred$details$overlap_adj), big.mark = ",")),
+          style = "color: #d32f2f; font-size: 11px; font-style: italic;"
+        ),
+        br()
+      )
+    } else {
+      NULL
+    }
+    
+    div(
+      style = "background-color: #f1f8e9; padding: 10px; border-left: 4px solid #2e7d32; margin-top: 10px; font-size: 11px;",
+      p(strong("📚 Selected Certifications:"), style = "margin: 0 0 8px 0; color: #2e7d32;"),
+      do.call(tagList, cert_items),
+      overlap_text,
+      p(
+        strong(paste0("Certification boost: +$", format(pred$details$cert_adj, big.mark = ","))),
+        style = "margin-top: 8px; color: #2e7d32;"
+      )
     )
   })
   
