@@ -460,64 +460,51 @@ ui <- fluidPage(
             ),
             
             # ========================================================================
-            # CERTIFICATION SECTION - Two column layout
+            # CERTIFICATION SECTION - Just checkboxes, organized by field
             # ========================================================================
             hr(),
             h4("📚 Professional Certifications (Optional)", style = "margin-top: 20px;"),
-            p(em("Select certifications you hold. See rationale on the right."),
+            p(em("Select certifications you hold. See rationale and details on the right side."),
               style = "color: #666; font-size: 12px;"),
             
-            # Two-column layout: Checkboxes (LEFT) | Rationale (RIGHT)
+            # CYBERSECURITY
             div(
-              style = "display: flex; gap: 20px; margin-top: 15px;",
-              
-              # LEFT COLUMN: Certification Checkboxes (no $ shown)
-              div(
-                style = "flex: 1;",
-                
-                # CYBERSECURITY
-                div(
-                  style = "margin-bottom: 15px;",
-                  h5("🔒 Cybersecurity", style = "color: #d32f2f; margin-bottom: 8px;"),
-                  checkboxInput("cert_cissp", "CISSP"),
-                  checkboxInput("cert_secplus", "Security+"),
-                ),
-                
-                # CLOUD & DEVOPS
-                div(
-                  style = "margin-bottom: 15px;",
-                  h5("☁️ Cloud & DevOps", style = "color: #1976d2; margin-bottom: 8px;"),
-                  checkboxInput("cert_aws_aa", "AWS Solutions Architect Associate"),
-                  checkboxInput("cert_kubernetes", "Kubernetes (CKA)"),
-                  checkboxInput("cert_terraform", "Terraform"),
-                  checkboxInput("cert_azure", "Azure Administrator"),
-                  checkboxInput("cert_gcp", "GCP Cloud Engineer"),
-                  checkboxInput("cert_aws_pro", "AWS Solutions Architect Professional"),
-                ),
-                
-                # DATA SCIENCE
-                div(
-                  style = "margin-bottom: 15px;",
-                  h5("📊 Data Science", style = "color: #388e3c; margin-bottom: 8px;"),
-                  checkboxInput("cert_gcp_data", "GCP Data Engineer"),
-                  checkboxInput("cert_aws_analytics", "AWS Analytics Specialty"),
-                  checkboxInput("cert_databricks", "Databricks Certified Engineer"),
-                  checkboxInput("cert_azure_data", "Azure Data Engineer"),
-                ),
-                
-                # IT MANAGEMENT
-                div(
-                  style = "margin-bottom: 15px;",
-                  h5("📋 IT Management", style = "color: #f57c00; margin-bottom: 8px;"),
-                  checkboxInput("cert_pmp", "PMP (Project Management Professional)"),
-                  checkboxInput("cert_projectplus", "Project+ (CompTIA)"),
-                  checkboxInput("cert_itil", "ITIL"),
-                )
-              ),
-              
-              # RIGHT COLUMN: Rationale & Explanation (Collapsible)
-              div(
-                style = "flex: 1; background-color: #f5f5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #2196F3;",
+              style = "margin-bottom: 15px;",
+              h5("🔒 Cybersecurity", style = "color: #d32f2f; margin-bottom: 8px;"),
+              checkboxInput("cert_cissp", "CISSP"),
+              checkboxInput("cert_secplus", "Security+"),
+            ),
+            
+            # CLOUD & DEVOPS
+            div(
+              style = "margin-bottom: 15px;",
+              h5("☁️ Cloud & DevOps", style = "color: #1976d2; margin-bottom: 8px;"),
+              checkboxInput("cert_aws_aa", "AWS Solutions Architect Associate"),
+              checkboxInput("cert_kubernetes", "Kubernetes (CKA)"),
+              checkboxInput("cert_terraform", "Terraform"),
+              checkboxInput("cert_azure", "Azure Administrator"),
+              checkboxInput("cert_gcp", "GCP Cloud Engineer"),
+              checkboxInput("cert_aws_pro", "AWS Solutions Architect Professional"),
+            ),
+            
+            # DATA SCIENCE
+            div(
+              style = "margin-bottom: 15px;",
+              h5("📊 Data Science", style = "color: #388e3c; margin-bottom: 8px;"),
+              checkboxInput("cert_gcp_data", "GCP Data Engineer"),
+              checkboxInput("cert_aws_analytics", "AWS Analytics Specialty"),
+              checkboxInput("cert_databricks", "Databricks Certified Engineer"),
+              checkboxInput("cert_azure_data", "Azure Data Engineer"),
+            ),
+            
+            # IT MANAGEMENT
+            div(
+              style = "margin-bottom: 15px;",
+              h5("📋 IT Management", style = "color: #f57c00; margin-bottom: 8px;"),
+              checkboxInput("cert_pmp", "PMP (Project Management Professional)"),
+              checkboxInput("cert_projectplus", "Project+ (CompTIA)"),
+              checkboxInput("cert_itil", "ITIL"),
+            )
                 
                 # Collapsible button
                 div(
@@ -820,7 +807,10 @@ ui <- fluidPage(
               style = "background-color: #f0f8f0; padding: 15px; margin-top: 20px; border-left: 4px solid #4caf50; border-radius: 4px;",
               h4("Required Skills for This Role"),
               uiOutput("skills_panel")
-            )
+            ),
+            
+            # Certification Rationale Box (filtered by role)
+            uiOutput("cert_rationale_box")
           )
         )
       ),
@@ -947,6 +937,71 @@ ui <- fluidPage(
 # ============================================================================
 
 server <- function(input, output) {
+  
+  # ========================================================================
+  # ROLE-BASED CERTIFICATION MAPPING
+  # ========================================================================
+  # Map occupational roles to relevant certifications
+  
+  role_cert_mapping <- list(
+    "Accountant" = list(
+      highly_relevant = c("AWS Analytics Specialty", "GCP Data Engineer"),
+      relevant = c("Azure Data Engineer", "Databricks Certified Engineer"),
+      optional = c("AWS Solutions Architect Associate", "Project Management Professional")
+    ),
+    "Administrator" = list(
+      highly_relevant = c("AWS Solutions Architect Associate", "Azure Administrator"),
+      relevant = c("GCP Cloud Engineer", "Kubernetes (CKA)"),
+      optional = c("Terraform", "Security+", "ITIL")
+    ),
+    "Analyst" = list(
+      highly_relevant = c("AWS Analytics Specialty", "GCP Data Engineer", "Databricks Certified Engineer"),
+      relevant = c("Azure Data Engineer", "AWS Solutions Architect Associate"),
+      optional = c("Tableau", "Power BI", "Project Management Professional")
+    ),
+    "Engineer" = list(
+      highly_relevant = c("AWS Solutions Architect Associate", "Kubernetes (CKA)", "Terraform"),
+      relevant = c("Azure Administrator", "GCP Cloud Engineer", "AWS Solutions Architect Professional"),
+      optional = c("CISSP", "Security+", "Databricks Certified Engineer")
+    ),
+    "Manager" = list(
+      highly_relevant = c("Project Management Professional", "Project+ (CompTIA)", "ITIL"),
+      relevant = c("AWS Solutions Architect Associate", "Azure Administrator"),
+      optional = c("GCP Cloud Engineer", "Kubernetes (CKA)", "Security+")
+    ),
+    "Specialist" = list(
+      highly_relevant = c("AWS Solutions Architect Associate", "Kubernetes (CKA)", "Terraform"),
+      relevant = c("CISSP", "Security+", "Azure Administrator"),
+      optional = c("GCP Cloud Engineer", "AWS Solutions Architect Professional")
+    ),
+    "Systems Administrator" = list(
+      highly_relevant = c("AWS Solutions Architect Associate", "Azure Administrator", "Security+"),
+      relevant = c("Kubernetes (CKA)", "ITIL", "GCP Cloud Engineer"),
+      optional = c("Terraform", "CISSP", "Project Management Professional")
+    ),
+    "Technician" = list(
+      highly_relevant = c("Security+", "CompTIA Project+", "ITIL"),
+      relevant = c("AWS Solutions Architect Associate", "Azure Administrator"),
+      optional = c("Kubernetes (CKA)", "Terraform", "GCP Cloud Engineer")
+    )
+  )
+  
+  # Reactive function to get recommended certs for selected role
+  recommended_certs <- reactive({
+    role <- input$occ_select
+    if (role %in% names(role_cert_mapping)) {
+      role_cert_mapping[[role]]
+    } else {
+      # Default: show all certs
+      list(
+        highly_relevant = c("AWS Solutions Architect Associate", "Kubernetes (CKA)", "Terraform", 
+                            "Azure Administrator", "GCP Cloud Engineer", "Security+"),
+        relevant = c("AWS Solutions Architect Professional", "GCP Data Engineer", 
+                     "AWS Analytics Specialty", "Databricks Certified Engineer", "Azure Data Engineer"),
+        optional = c("CISSP", "Project Management Professional", "Project+ (CompTIA)", "ITIL")
+      )
+    }
+  })
   
   # ========================================================================
   # LOAD TRAINING DATA (for Tab 5 - Similar Profiles)
@@ -1251,6 +1306,71 @@ server <- function(input, output) {
     } else {
       p("Select an occupation to see required skills", style = "color: #999;")
     }
+  })
+  
+  # Output: Certification Rationale Box (filtered by role)
+  output$cert_rationale_box <- renderUI({
+    role <- input$occ_select
+    recommended <- recommended_certs()
+    
+    div(
+      style = "background-color: #f5f5f5; padding: 20px; margin-top: 20px; border-left: 4px solid #2196F3; border-radius: 8px;",
+      
+      # Title with toggle
+      div(
+        style = "cursor: pointer; user-select: none; margin-bottom: 15px;",
+        id = "cert_rationale_toggle",
+        h4(
+          span("▼ Why These Certifications for ", strong(role), "?", style = "font-weight: bold;"),
+          style = "margin: 0; color: #2196F3;"
+        )
+      ),
+      
+      # Collapsible content
+      div(
+        id = "cert_rationale_content",
+        style = "display: block; padding-top: 10px;",
+        
+        # Caveat box
+        div(
+          style = "background-color: #fff3cd; padding: 12px; border-radius: 4px; border-left: 3px solid #ffc107; margin-bottom: 15px;",
+          p(
+            em("⚠️ IMPORTANT: Certifications may not guarantee a pay raise. Our analysis found correlations in salary data, but causation varies by employer, role, and market. Consider pursuing certifications also for professional growth, career advancement, personal goals, and industry credibility."),
+            style = "margin: 0; font-size: 12px; color: #333;"
+          )
+        ),
+        
+        # Highly Relevant
+        p(strong("🔵 HIGHLY RELEVANT for ", role, ":"), style = "margin-top: 15px; margin-bottom: 10px; color: #1565c0;"),
+        do.call(tagList, lapply(recommended$highly_relevant, function(cert) {
+          div(
+            style = "margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;",
+            p(strong(cert), style = "margin: 0 0 5px 0;"),
+            p("This certification directly applies to ", tolower(role), " roles and offers strong ROI in the job market.", style = "margin: 0; font-size: 12px; color: #666;")
+          )
+        })),
+        
+        # Relevant
+        p(strong("🟢 RELEVANT for ", role, ":"), style = "margin-top: 15px; margin-bottom: 10px; color: #388e3c;"),
+        do.call(tagList, lapply(recommended$relevant, function(cert) {
+          div(
+            style = "margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;",
+            p(strong(cert), style = "margin: 0 0 5px 0;"),
+            p("This certification complements ", tolower(role), " skills and broadens career opportunities.", style = "margin: 0; font-size: 12px; color: #666;")
+          )
+        })),
+        
+        # Optional
+        p(strong("🟡 OPTIONAL for ", role, ":"), style = "margin-top: 15px; margin-bottom: 10px; color: #f57c00;"),
+        do.call(tagList, lapply(recommended$optional, function(cert) {
+          div(
+            style = "margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;",
+            p(strong(cert), style = "margin: 0 0 5px 0;"),
+            p("Useful for career diversification or specialization within ", tolower(role), " field.", style = "margin: 0; font-size: 12px; color: #666;")
+          )
+        }))
+      )
+    )
   })
   
   # Output: Reference table (filter by similar rank/occupation in same location)
