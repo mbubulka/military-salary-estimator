@@ -353,6 +353,30 @@ demo_profiles <- data.frame(
 # ============================================================================
 
 ui <- fluidPage(
+  # Add JavaScript for collapsible certification rationale
+  tags$head(
+    tags$script(HTML("
+      $(document).ready(function() {
+        var isExpanded = true;  // Start expanded
+        
+        $('#cert_rationale_toggle').click(function() {
+          isExpanded = !isExpanded;
+          
+          // Toggle content visibility
+          $('#cert_rationale_content').slideToggle(300);
+          
+          // Toggle arrow direction
+          var toggleText = $(this).find('span').text();
+          if (isExpanded) {
+            $(this).find('span').text('▼ Why These Certifications?');
+          } else {
+            $(this).find('span').text('▶ Why These Certifications?');
+          }
+        });
+      });
+    "))
+  ),
+  
   # Page title
   titlePanel("Military-to-Civilian Salary Estimator"),
   
@@ -436,52 +460,146 @@ ui <- fluidPage(
             ),
             
             # ========================================================================
-            # CERTIFICATION SECTION - Expandable/Collapsible
+            # CERTIFICATION SECTION - Two column layout
             # ========================================================================
             hr(),
             h4("📚 Professional Certifications (Optional)", style = "margin-top: 20px;"),
-            p(em("Select any certifications you hold to estimate additional salary boost"),
+            p(em("Select certifications you hold. See rationale on the right."),
               style = "color: #666; font-size: 12px;"),
             
-            # CYBERSECURITY
+            # Two-column layout: Checkboxes (LEFT) | Rationale (RIGHT)
             div(
-              style = "margin-top: 15px; margin-bottom: 10px;",
-              h5("🔒 Cybersecurity", style = "color: #d32f2f; margin-bottom: 8px;"),
-              checkboxInput("cert_cissp", "CISSP (+$35k) - Info Security Professional"),
-              checkboxInput("cert_secplus", "Security+ (+$4k) - Foundational cert"),
-            ),
-            
-            # CLOUD & DEVOPS
-            div(
-              style = "margin-top: 15px; margin-bottom: 10px;",
-              h5("☁️ Cloud & DevOps", style = "color: #1976d2; margin-bottom: 8px;"),
-              checkboxInput("cert_aws_aa", "AWS Solutions Architect Associate (+$39k)"),
-              checkboxInput("cert_kubernetes", "Kubernetes CKA (+$36k)"),
-              checkboxInput("cert_terraform", "Terraform (+$28k)"),
-              checkboxInput("cert_azure", "Azure Administrator (+$29k)"),
-              checkboxInput("cert_gcp", "GCP Cloud Engineer (+$27k)"),
-              checkboxInput("cert_aws_pro", "AWS Solutions Architect Professional (+$3k)"),
-            ),
-            
-            # DATA SCIENCE
-            div(
-              style = "margin-top: 15px; margin-bottom: 10px;",
-              h5("📊 Data Science", style = "color: #388e3c; margin-bottom: 8px;"),
-              checkboxInput("cert_gcp_data", "GCP Data Engineer (+$35k)"),
-              checkboxInput("cert_aws_analytics", "AWS Analytics Specialty (+$32k)"),
-              checkboxInput("cert_databricks", "Databricks Certified Engineer (+$30k)"),
-              checkboxInput("cert_azure_data", "Azure Data Engineer (+$28k)"),
-            ),
-            
-            # IT MANAGEMENT
-            div(
-              style = "margin-top: 15px; margin-bottom: 10px;",
-              h5("📋 IT Management", style = "color: #f57c00; margin-bottom: 8px;"),
-              checkboxInput("cert_pmp", "PMP - Project Management Professional (+$11k avg)"),
-              span(em("⚠️ Assumes 60% promotion to PM. If promoted: +$18k. If staying IC: +$2-5k."),
-                   style = "color: #d32f2f; font-size: 11px; margin-left: 20px; display: block; margin-top: 3px;"),
-              checkboxInput("cert_projectplus", "Project+ CompTIA (+$10k)"),
-              checkboxInput("cert_itil", "ITIL (+$10k)"),
+              style = "display: flex; gap: 20px; margin-top: 15px;",
+              
+              # LEFT COLUMN: Certification Checkboxes (no $ shown)
+              div(
+                style = "flex: 1;",
+                
+                # CYBERSECURITY
+                div(
+                  style = "margin-bottom: 15px;",
+                  h5("🔒 Cybersecurity", style = "color: #d32f2f; margin-bottom: 8px;"),
+                  checkboxInput("cert_cissp", "CISSP"),
+                  checkboxInput("cert_secplus", "Security+"),
+                ),
+                
+                # CLOUD & DEVOPS
+                div(
+                  style = "margin-bottom: 15px;",
+                  h5("☁️ Cloud & DevOps", style = "color: #1976d2; margin-bottom: 8px;"),
+                  checkboxInput("cert_aws_aa", "AWS Solutions Architect Associate"),
+                  checkboxInput("cert_kubernetes", "Kubernetes (CKA)"),
+                  checkboxInput("cert_terraform", "Terraform"),
+                  checkboxInput("cert_azure", "Azure Administrator"),
+                  checkboxInput("cert_gcp", "GCP Cloud Engineer"),
+                  checkboxInput("cert_aws_pro", "AWS Solutions Architect Professional"),
+                ),
+                
+                # DATA SCIENCE
+                div(
+                  style = "margin-bottom: 15px;",
+                  h5("📊 Data Science", style = "color: #388e3c; margin-bottom: 8px;"),
+                  checkboxInput("cert_gcp_data", "GCP Data Engineer"),
+                  checkboxInput("cert_aws_analytics", "AWS Analytics Specialty"),
+                  checkboxInput("cert_databricks", "Databricks Certified Engineer"),
+                  checkboxInput("cert_azure_data", "Azure Data Engineer"),
+                ),
+                
+                # IT MANAGEMENT
+                div(
+                  style = "margin-bottom: 15px;",
+                  h5("📋 IT Management", style = "color: #f57c00; margin-bottom: 8px;"),
+                  checkboxInput("cert_pmp", "PMP (Project Management Professional)"),
+                  checkboxInput("cert_projectplus", "Project+ (CompTIA)"),
+                  checkboxInput("cert_itil", "ITIL"),
+                )
+              ),
+              
+              # RIGHT COLUMN: Rationale & Explanation (Collapsible)
+              div(
+                style = "flex: 1; background-color: #f5f5f5; padding: 15px; border-radius: 8px; border-left: 4px solid #2196F3;",
+                
+                # Collapsible button
+                div(
+                  style = "cursor: pointer; user-select: none; margin-bottom: 15px;",
+                  id = "cert_rationale_toggle",
+                  h5(
+                    span("▼ Why These Certifications?", style = "font-weight: bold;"),
+                    style = "margin: 0; color: #2196F3;"
+                  )
+                ),
+                
+                # Rationale content (collapsible)
+                div(
+                  id = "cert_rationale_content",
+                  style = "display: block; padding-top: 10px;",
+                  
+                  # Caveat box
+                  div(
+                    style = "background-color: #fff3cd; padding: 12px; border-radius: 4px; border-left: 3px solid #ffc107; margin-bottom: 15px;",
+                    p(
+                      em("⚠️ IMPORTANT: Certifications may not guarantee a pay raise. Our analysis found correlations in salary data, but causation varies by employer, role, and market. Consider pursuing certifications also for professional growth, career advancement, personal goals, and industry credibility."),
+                      style = "margin: 0; font-size: 12px; color: #333;"
+                    )
+                  ),
+                  
+                  # Included certifications rationale
+                  p(strong("✓ INCLUDED CERTIFICATIONS:"), style = "margin-top: 15px; margin-bottom: 10px; color: #2e7d32;"),
+                  
+                  # CISSP
+                  div(
+                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
+                    p(strong("CISSP (Certified Information Systems Security Professional)"), style = "margin: 0 0 5px 0;"),
+                    p("Industry-leading credential for senior security professionals. Our analysis: professionals with CISSP show correlation with +$35k salary premium. High barrier to entry (5 yrs experience required) indicates seniority.", style = "margin: 0 0 5px 0; font-size: 12px;"),
+                    p("Investment: ~$749 | Time: 6 months | Jobs: 600k+", style = "margin: 0; font-size: 11px; color: #666;")
+                  ),
+                  
+                  # AWS
+                  div(
+                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
+                    p(strong("AWS Solutions Architect Associate"), style = "margin: 0 0 5px 0;"),
+                    p("Cloud skills in highest demand. Our analysis: AWS certification holders show +$39k correlation, highest among all credentials. Cloud adoption accelerating across industries.", style = "margin: 0 0 5px 0; font-size: 12px;"),
+                    p("Investment: ~$300 | Time: 3 months | Jobs: 900k+", style = "margin: 0; font-size: 11px; color: #666;")
+                  ),
+                  
+                  # Kubernetes
+                  div(
+                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
+                    p(strong("Kubernetes (CKA)"), style = "margin: 0 0 5px 0;"),
+                    p("Container orchestration is critical for DevOps/platform engineering. Our analysis: CKA holders show +$36k correlation. Kubernetes adoption now standard in enterprise.", style = "margin: 0 0 5px 0; font-size: 12px;"),
+                    p("Investment: ~$395 | Time: 3 months | Jobs: 400k+", style = "margin: 0; font-size: 11px; color: #666;")
+                  ),
+                  
+                  # More certs (abbreviated for space)
+                  div(
+                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
+                    p(strong("[View all 14 cert rationales in dashboard]"), style = "margin: 0; font-size: 11px; color: #1976d2; font-style: italic;")
+                  ),
+                  
+                  # Excluded certifications
+                  p(strong("✗ EXCLUDED (ANALYZED BUT NOT INCLUDED):"), style = "margin-top: 15px; margin-bottom: 10px; color: #d32f2f;"),
+                  
+                  # CAP
+                  div(
+                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
+                    p(strong("CAP (Certified Analytics Professional)"), style = "margin: 0 0 5px 0;"),
+                    p("Why excluded: Niche credential. Our analysis: only 100k jobs vs AWS 900k. ROI ratio 2.2:1 vs AWS 13:1. Market growing only 2-3%/year. Recommend as Phase 2 if market expands.", style = "margin: 0; font-size: 12px;")
+                  ),
+                  
+                  # Snowflake
+                  div(
+                    style = "margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;",
+                    p(strong("Snowflake Certification"), style = "margin: 0 0 5px 0;"),
+                    p("Why excluded: Growing market (70k jobs) but immature. If market reaches 200k+ jobs by 2026, recommend inclusion. Currently outpaced by cloud giants.", style = "margin: 0; font-size: 12px;")
+                  ),
+                  
+                  # More excluded
+                  div(
+                    style = "margin-bottom: 12px;",
+                    p(strong("[View rationale for 7 more excluded certs]"), style = "margin: 0; font-size: 11px; color: #d32f2f; font-style: italic;")
+                  )
+                )
+              )
             ),
             
             # Predict Button
