@@ -1,0 +1,262 @@
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+.RDataTmp
+
+# User-specific files
+.Ruserdata
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+*.Rproj
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# R Environment Variables
+.Renviron
+
+# pkgdown site
+docs/
+
+# translation temp files
+po/*~
+
+# RStudio Connect folder
+rsconnect/
+
+# macOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+
+# R package: bookdown output directories
+_book/
+_bookdown_files/
+
+# R package: blogdown output directories
+public/
+resources/
+
+# renv
+renv/library/
+renv/staging/
+renv/python/
+
+# ============================================================================
+# ACADEMIC & PRESENTATIONS (NOT FOR PUBLIC REPO)
+# ============================================================================
+# PRESENTATIONS & MULTIMEDIA
+# ============================================================================
+
+05_powerpoint/
+06_powerbi_dashboard/
+07_video_recording/
+*.pptx
+*.ppt
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.Rmd
+
+# Academic papers & reports
+08_documentation/
+lab_report*
+*_submission*
+Chapter_Lab_Report*
+template*
+*COMPREHENSIVE*
+*INDEX*
+*COMPLETE*
+CLEANUP_COMPLETE.md
+ORGANIZATION.md
+PHASE*_GUIDE.md
+PHASE*_SUMMARY.md
+IMPLEMENTATION_CHECKLIST.md
+
+# ============================================================================
+# ARCHIVED MATERIALS
+# ============================================================================
+
+09_archive/
+archive/
+deprecated/
+old/
+legacy/
+shared/
+**/_ARCHIVE*/
+**/_ARCHIVE_*/
+**/_archive*/
+**/_archived*/
+*_ARCHIVE*/
+*_archive*/
+*_OLD_*.R
+*_BACKUP*.R
+explore_geographic_data.R
+02_code/_ARCHIVE_OLD_ITERATIONS/
+02_code/_ARCHIVE_OLD_PHASE5/
+02_code/_ARCHIVED_BROKEN_CODE/
+
+# ============================================================================
+# DEBUG & TEST FILES (contain API keys, should never be committed)
+# ============================================================================
+
+*_debug*.R
+*_test*.R
+debug_*.R
+test_*.R
+deep_debug.R
+find_valid_series.R
+raw_http_test.R
+inspect_bls_data.R
+explore_geographic_data.R
+
+# ============================================================================
+# API KEYS & CREDENTIALS (NEVER COMMIT)
+# ============================================================================
+
+.env
+.env.local
+.env.*.local
+secrets/
+credentials/
+*_api_key*
+*_secret*
+*_token*
+**/config_local.R
+**/credentials.R
+bls_config.R
+**/bls_credentials*
+aws_config
+.aws/
+.azure/
+gcloud.json
+
+# BLS API key patterns (commonly found in R code)
+api_key <- "*"
+registrationkey=
+
+# ============================================================================
+# SENSITIVE DATA
+# ============================================================================
+
+# Training/test/validation datasets
+*training_set*.csv
+*test_set*.csv
+*validation_set*.csv
+*ENHANCED*.csv
+
+# Large data files
+*.db
+*.sqlite
+*.parquet
+01_data/raw/**/*.csv
+01_data/raw/**/*.xlsx
+01_data/raw/**/*.json
+
+# Sensitive business data
+*salary_data*
+*compensation*
+*employee_data*
+*personnel*
+
+# ============================================================================
+# MODEL FILES & RESULTS
+# ============================================================================
+
+# Trained models
+*.rds
+*.RData
+*.pkl
+*.joblib
+*.pt
+*.h5
+models/
+04_results/
+
+# Large result files
+*.feather
+*.arrow
+
+# ============================================================================
+# BUILD & DEPLOYMENT
+# ============================================================================
+
+build/
+dist/
+*.egg-info/
+.eggs/
+*.whl
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Shiny deployment
+shinyapps.io/
+
+# ============================================================================
+# IDE & EDITORS
+# ============================================================================
+
+.vscode/
+*.code-workspace
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ============================================================================
+# OTHER GENERATED FILES
+# ============================================================================
+
+# Large archive/exports
+*.zip
+*.tar.gz
+*.rar
+
+# PDF outputs (keep only README/docs)
+*.pdf
+!README.pdf
+
+# Plots
+Rplots.pdf
+
+# IDE
+.Rproj.user/
+
+# OS
+
+.DS_Store
+Thumbs.db

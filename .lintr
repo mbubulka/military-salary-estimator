@@ -1,0 +1,29 @@
+linters: with_defaults(
+  line_length_linter(80),
+  object_name_linter(styles = "snake_case"),
+  indentation_linter(indent = 2),
+  spaces_inside_linter(),
+  commas_linter(),
+  infix_spaces_linter(),
+  commented_code_linter(),
+  absolute_path_linter(),
+  function_left_parentheses_linter(),
+  no_tab_linter(),
+  trailing_blank_lines_linter(),
+  trailing_whitespace_linter(),
+  undesirable_function_linter(
+    fun = c("sapply", "apply", "mapply", "tapply")
+  ),
+  undesirable_operator_linter(
+    op = c("<<-", "->", "~>", "%<>%")
+  ),
+  T_and_F_symbol_linter()
+)
+
+exclusions: list(
+  "renv/*",
+  "packrat/*",
+  ".Rprofile"
+)
+
+encoding: "UTF-8"

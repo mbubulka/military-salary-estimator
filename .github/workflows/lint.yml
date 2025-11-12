@@ -1,0 +1,78 @@
+name: Lint R Code
+
+on:
+  push:
+    paths:
+      - '**.R'
+      - '**.Rmd'
+  pull_request:
+    paths:
+      - '**.R'
+      - '**.Rmd'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.2.2'
+      
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::lintr
+            any::renv
+      
+      - name: Restore renv environment
+        shell: Rscript {0}
+        run: |
+          if (file.exists("renv.lock")) {
+            renv::restore()
+          }
+      
+      - name: Lint R files
+        shell: Rscript {0}
+        run: |
+          # Get all R files in the repository
+          r_files <- list.files(
+            path = ".",
+            pattern = "\\.(R|r)$",
+            recursive = TRUE,
+            full.names = TRUE
+          )
+          
+          # Exclude renv directory
+          r_files <- r_files[!grepl("^\\./renv/", r_files)]
+          
+          # Run lintr on each file
+          library(lintr)
+          lint_results <- lapply(r_files, function(file) {
+            lints <- lint(file)
+            if (length(lints) > 0) {
+              lapply(lints, function(x) {
+                message(x$filename, ":", x$line_number, ":", x$column_number, ": ", 
+                        x$type, ": ", x$message)
+              })
+              return(length(lints))
+            }
+            return(0)
+          })
+          
+          # Count total lints
+          total_lints <- sum(unlist(lint_results))
+          
+          # Print summary
+          if (total_lints > 0) {
+            message("Found ", total_lints, " lint(s) in ", length(r_files), " file(s)")
+            quit(status = 1)
+          } else {
+            message("No lints found in ", length(r_files), " file(s)")
+          }

@@ -1,0 +1,7 @@
+"Test","Statistic","PValue","Significant"
+"Shapiro-Wilk (Military)",0.976328,"5.517998e-24",TRUE
+"Anderson-Darling (Military)",22.503061,"3.7e-24",TRUE
+"Pearson Correlation (YOS)",0.601248,"0e+00",TRUE
+"ANOVA (Rank Category)",300.2453,"1.167038e-64",TRUE
+"ANOVA (Branch)",0,"1e+00",FALSE
+"ANOVA (Civilian Category)",0,"1e+00",FALSE

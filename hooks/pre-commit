@@ -1,0 +1,79 @@
+#!/bin/sh
+#
+# Pre-commit hook to run R linting on staged R files
+#
+
+# Get all staged R files
+staged_r_files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(R|r)$')
+
+if [ -z "$staged_r_files" ]; then
+  echo "No R files staged for commit. Skipping lint check."
+  exit 0
+fi
+
+echo "Running lintr on staged R files..."
+
+# Create a temporary file for the R script
+temp_script=$(mktemp)
+
+cat > "$temp_script" << 'EOF'
+# Get command line arguments (file paths)
+args <- commandArgs(trailingOnly = TRUE)
+
+if (length(args) == 0) {
+  cat("No files to lint\n")
+  quit(status = 0)
+}
+
+# Try to load lintr
+if (!requireNamespace("lintr", quietly = TRUE)) {
+  cat("lintr package not installed. Please install with:\n")
+  cat("install.packages('lintr')\n")
+  quit(status = 1)
+}
+
+# Run lintr on each file
+library(lintr)
+lint_results <- lapply(args, function(file) {
+  cat("Linting:", file, "\n")
+  lints <- lint(file)
+  if (length(lints) > 0) {
+    lapply(lints, function(x) {
+      cat(x$filename, ":", x$line_number, ":", x$column_number, ": ", 
+          x$type, ": ", x$message, "\n", sep = "")
+    })
+    return(length(lints))
+  }
+  cat("  No lints found\n")
+  return(0)
+})
+
+# Count total lints
+total_lints <- sum(unlist(lint_results))
+
+# Print summary
+if (total_lints > 0) {
+  cat("\nFound", total_lints, "lint(s) in", length(args), "file(s)\n")
+  cat("Please fix the issues before committing\n")
+  quit(status = 1)
+} else {
+  cat("\nNo lints found in", length(args), "file(s)\n")
+  quit(status = 0)
+}
+EOF
+
+# Run the R script with the staged files
+Rscript "$temp_script" $staged_r_files
+lint_exit_code=$?
+
+# Clean up
+rm "$temp_script"
+
+# If linting failed, prevent the commit
+if [ $lint_exit_code -ne 0 ]; then
+  echo "Commit aborted due to lint errors."
+  echo "Fix the issues and try again, or use --no-verify to bypass this check."
+  exit 1
+fi
+
+exit 0
