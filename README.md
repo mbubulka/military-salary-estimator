@@ -255,14 +255,6 @@ Suitable for commercial and research use with attribution.
 
 ---
 
-## 📖 Academic Context
-
-**Course:** DS511 Statistical Methods in Data Science  
-**Institution:** Capitol Technology University  
-**Instructor:** Joseph Maroney, Sc.D.  
-
----
-
 ## 🤝 Citation
 
 If you use this model in research or professional work:
@@ -286,16 +278,6 @@ If you use this model in research or professional work:
 - **Dashboard usage** → Check in-app help (?) buttons
 - **Data sources** → [02_code/00_DATA_SOURCES_AND_FEATURES.md](02_code/00_DATA_SOURCES_AND_FEATURES.md)
 - **Shiny deployment** → See [PHASE6_IMPLEMENTATION_GUIDE.md](PHASE6_IMPLEMENTATION_GUIDE.md)
-
----
-
-## 🎯 Roadmap
-
-- ✅ Phase 5: Model development & validation
-- ✅ Phase 6: Shiny dashboard (interactive UI)
-- 📋 Phase 7: Regional salary adjustments
-- 📋 Phase 8: Ensemble modeling (stack with tree-based)
-- 📋 Phase 9: Career progression projections (5/10-year forecasts)
 
 ---
 
