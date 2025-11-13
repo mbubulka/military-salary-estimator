@@ -1,0 +1,6 @@
+Metric,Value
+Training R²,0.7878
+Cross-Validation R²,0.8202
+Test R²,0.7997
+Train→Test Drop (%),-1.20
+CV→Test Difference (%),-2.05
