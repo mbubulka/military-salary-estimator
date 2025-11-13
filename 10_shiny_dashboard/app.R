@@ -704,10 +704,24 @@ ui <- fluidPage(
       br(),
       
       h3("Model Performance"),
+      # HONEST DISCLAIMER FIRST
+      tags$div(
+        style = "background-color: #fff3cd; padding: 15px; border-radius: 5px; border-left: 4px solid #ffc107; margin-bottom: 20px;",
+        tags$strong("⚠️ Model Limitations:"),
+        tags$ul(
+          style = "margin: 10px 0; padding-left: 20px;",
+          tags$li("Predicts salary within ±$15k-$20k on average (82% accuracy)"),
+          tags$li("Based on successful military-to-civilian transitions (selection bias)"),
+          tags$li("Does NOT account for: geography, education, individual negotiation"),
+          tags$li("Use for career planning, NOT for contract negotiations"),
+          tags$li("See 'Rank vs. Skills Analysis' for deeper findings")
+        )
+      ),
+      
       div(
         style = "background-color: #f9f9f9; padding: 20px; border-radius: 8px;",
         
-        h4("Test Set Results (1,077 independent cases):"),
+        h4("Model Performance (5-Fold Cross-Validation):"),
         tags$table(
           style = "width: 100%; border-collapse: collapse;",
           tags$tr(
@@ -715,43 +729,43 @@ ui <- fluidPage(
             tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", strong("Value"))
           ),
           tags$tr(
-            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "R Squared (Accuracy)"),
-            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", strong("0.9627 (96.27%)"))
+            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "R² (Accuracy)"),
+            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", strong("0.8202 (82.02%)"))
           ),
           tags$tr(
-            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "Cross-Validation R²"),
-            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "0.8202 ± 0.0304")
+            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "R² Variability"),
+            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "±0.0304 across 5 folds")
           ),
           tags$tr(
-            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "Prediction Error (RMSE)"),
-            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", strong("$5,003"))
+            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "RMSE (Prediction Error)"),
+            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", strong("$8,950 ± $1,119"))
           ),
           tags$tr(
-            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "Overfitting Check"),
-            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", strong("0.02% drop (ZERO)"))
+            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "95% Confidence Interval"),
+            tags$td(style = "padding: 10px; border-bottom: 1px solid #ddd;", "±$17,900 (roughly ±2 SD)")
           ),
           tags$tr(
-            tags$td(style = "padding: 10px;", "Confidence Band"),
-            tags$td(style = "padding: 10px;", strong("±$4,999"))
+            tags$td(style = "padding: 10px;", "Training Records"),
+            tags$td(style = "padding: 10px;", "2,512 military-to-civilian transitions")
           )
         ),
         
         br(),
-        h4("Feature Importance:"),
+        h4("What This Model Does Well:"),
         tags$ul(
-          tags$li(strong("Military Rank:"), " 40-45% of predictive power"),
-          tags$li(strong("Occupational Specialty:"), " 30-35%"),
-          tags$li(strong("Years of Service:"), " 15-20%"),
-          tags$li(strong("Interaction Effects:"), " 5-10%")
+          tags$li("✓ Explains 82% of salary variation using rank, experience, specialty"),
+          tags$li("✓ Interpretable: See exactly how each factor affects salary"),
+          tags$li("✓ Fast: Generates predictions in <0.01 seconds"),
+          tags$li("✓ Stable: Consistent across cross-validation folds"),
+          tags$li("✓ Honest: Uncertainty disclosed (±$18k range)")
         ),
         
         br(),
-        h4("Why GLM?"),
-        tags$ul(
-          tags$li("✓ Superior accuracy (96.27% vs 6.57% baseline)"),
-          tags$li("✓ Interpretable coefficients (transparent)"),
-          tags$li("✓ Fast inference (<0.01s per prediction)"),
-          tags$li("✓ Zero overfitting (proven on test set)")
+        h4("Important Note:"),
+        p(
+          "Some documentation references 'R² = 0.9627' describing how military rank alone ",
+          "explains ~96% of variance in MILITARY salary data (not civilian prediction accuracy). ",
+          "See the 'Rank vs. Skills Analysis' discussion for this finding."
         )
       )
     ),
@@ -778,11 +792,12 @@ ui <- fluidPage(
           "glm(civilian_salary ~ rank + years_of_service + \n    occupation_name + rank:years_of_service,\n    family = gaussian(link = 'identity'))"
         ),
         
-        h4("Validation Strategy (Dual):"),
+        h4("Validation Strategy:"),
         tags$ol(
-          tags$li(strong("Cross-Validation:"), " 5-fold stratified → R² = 0.8202 ± 0.0304 (conservative)"),
-          tags$li(strong("Independent Test Set:"), " 1,077 unseen cases → R² = 0.9627 (rigorous)"),
-          tags$li(strong("Overfitting Check:"), " Train (0.9628) → Test (0.9627) = 0.02% drop ✓")
+          tags$li(strong("5-Fold Cross-Validation:"), " Stratified by rank → R² = 0.8202 ± 0.0304 (primary metric)"),
+          tags$li(strong("Multiple Models Tested:"), " GLM, XGBoost, SVM, Random Forest, GBM"),
+          tags$li(strong("GLM Selected:"), " Best balance of accuracy (82%), interpretability, and speed"),
+          tags$li(strong("Honest Uncertainty:"), " Predictions accurate to ±$17,900 (95% CI), not ±$5k")
         ),
         
         h4("Known Limitations:"),

@@ -2,6 +2,15 @@
 .Rhistory
 .Rapp.history
 
+# Academic & Local Materials (NOT for GitHub)
+# ============================================================================
+ACADEMIC/
+05_powerpoint/
+06_powerbi_dashboard/
+07_video_recording/
+08_documentation/
+09_archive/
+
 # Session Data files
 .RData
 .RDataTmp

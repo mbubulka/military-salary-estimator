@@ -7,16 +7,16 @@
 A data science project predicting salary transitions for military personnel entering the civilian workforce. Includes a high-accuracy machine learning model and interactive Shiny dashboard.
 
 **Model Performance:**
-- **Accuracy:** R² = 0.9627 (96% variance explained)
-- **MAE:** $3,246 on test predictions  
-- **Data:** 3,589 military-to-civilian transitions
-- **Deployment:** Shiny dashboard (3-tab interactive app)
+- **Accuracy (5-Fold CV):** R² = 0.8202 ± 0.0304 (82% variance explained)
+- **Error (RMSE):** $8,950 ± $1,119  
+- **Data:** 3,589 military-to-civilian transitions (verified, real)
+- **Deployment:** Shiny dashboard (6-tab interactive app) — https://mbubulka.shinyapps.io/military-salary-estimator/
 
 ---
 
 ## 📊 Overview
 
-The model is trained on 3,589 military-to-civilian salary transitions with 96% accuracy (R² = 0.9627).
+The model is trained on 3,589 military-to-civilian salary transitions using CompTIA Tech Jobs Report (September 2025) and Dice.com salary survey data. Cross-validation accuracy: R² = 0.8202 ± 0.0304 (82% variance explained), with RMSE = $8,950 ± $1,119.
 
 ---
 
@@ -25,11 +25,12 @@ The model is trained on 3,589 military-to-civilian salary transitions with 96% a
 This project analyzes **3,589 real military-to-civilian salary transitions** to build a predictive model helping service members understand expected civilian salary outcomes.
 
 **Key Features:**
-- ✅ **96% Accuracy** - Generalized Linear Model with cross-validation
+- ✅ **82% Accuracy** - Generalized Linear Model with 5-fold cross-validation
+- ✅ **Verified Data** - CompTIA Tech Jobs Report + Dice.com salary surveys (not web-scraped)
 - ✅ **Interpretable** - Transparent coefficients for explainability
 - ✅ **Interactive** - Shiny dashboard for real-time estimation
-- ✅ **Validated** - Comprehensive cross-validation & residual analysis
-- ✅ **Production-Ready** - Deployment-optimized code
+- ✅ **Validated** - Rigorous cross-validation with honest uncertainty bounds
+- ✅ **Production-Ready** - Deployment-optimized code at https://mbubulka.shinyapps.io/military-salary-estimator/
 
 **Use Cases:**
 - Military-to-civilian career transition planning
