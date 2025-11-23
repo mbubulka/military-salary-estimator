@@ -418,8 +418,22 @@ ui <- fluidPage(
     "))
   ),
   
-  # Page title
-  titlePanel("Military-to-Civilian Salary Estimator"),
+  # Page title with back button
+  fluidRow(
+    column(12, 
+      div(
+        style = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;",
+        titlePanel("Military-to-Civilian Salary Estimator"),
+        tags$a(
+          href = "https://bubulkaanalytics.com/",
+          class = "btn btn-secondary",
+          style = "padding: 10px 15px; background-color: #f0f0f0; color: #333; text-decoration: none; border-radius: 4px; border: 1px solid #ccc;",
+          "← Back to Portfolio"
+        )
+      )
+    )
+  ),
+  br(),
   
   # Navigation tabs
   tabsetPanel(
